@@ -1,0 +1,41 @@
+//== alert
+.alert-arrow {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: @zIndexAlert;
+    margin: 6px 0 0;
+    padding: 8px 10px;
+    border-radius: 4px;
+    color: #1fb7f6;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    &:before {
+        position: absolute;
+        top: -6px;
+        border-bottom: 6px solid rgba(0, 0, 0, 0.7);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        content: '';
+    }
+
+    &.back-alert {
+        margin-top: -15px;
+    }
+    &.alert-right {
+        right: 30px;
+        left: auto;
+
+        &:before {
+            right: 10px;
+        }
+    }
+    &.alert-middle {
+        width: 100%;
+
+        &:before {
+            left: 50%;
+            margin-left: -6px;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+<div class="container">
+    <form name="loginForm" class="login_form" novalidate>
+        <h2 class="login_title">
+            <img ng-src="{{ imageUrl.tigerwitLogo }}">
+        </h2>
+        <div class="login_info">
+            <div class="form-control-wrapper login-control-wrapper">
+                <input class="form-control"
+                       name="username"
+                       type="text"
+                       required
+                       placeholder="用户名"
+                       ng-model="loginInfo.username"
+                       ng-focus="hideErr('username')">
+
+                <div ng-show="frontErr.username.show">
+                    <p class="alert-arrow" ng-show="loginForm.username.$error.required">
+                        请填写用户名
+                    </p>
+                </div>
+            </div>
+            <div class="form-control-wrapper login-control-wrapper">
+                <input class="form-control"
+                       name="password"
+                       type="password"
+                       required
+                       placeholder="密码"
+                       ng-model="loginInfo.password"
+                       ng-focus="hideErr('password')">
+
+                <div ng-show="frontErr.password.show">
+                    <p class="alert-arrow" ng-show="loginForm.password.$error.required">
+                        请填写密码
+                    </p>
+                </div>
+            </div>
+            <div class="login_back_err" ng-show="backErr.show">
+                <span ng-click="closeBackErr()">
+                    <i class="icon iconfont">&#xe604;</i>
+                </span>
+                {{ backErr.msg || '登录失败，请稍候重试' }}
+            </div>
+            <div class="btn-wrapper">
+                <button ng-if="!loading" class="login_btn" ng-click="">
+                    登录
+                </button>
+                <button ng-if="loading" class="login_btn disabled" disabled>
+                    <i class="icon iconfont">&#xe603;</i>
+                    登录中
+                </button>
+            </div>
+            <div class="login_server_phone clearfix">
+                <div class="phone_icon">
+                    <i class="icon iconfont">&#xe60e;</i>
+                </div>
+                <div class="phone_num">
+                    <p>客服咨询</p>
+                    <span>400-809-8509</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

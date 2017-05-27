@@ -1,0 +1,168 @@
+@selection-width: 150px;
+@dropdown-border: rgba(0,0,0,.15);
+@border-radius-base: 4px;
+@gray: #ccc;
+
+.selection {
+    position: relative;
+    display: inline-block;
+    width: @selection-width;
+    vertical-align: middle;
+    margin-right: 15px;
+    background-color: #fdfdfd;
+
+    &.to_left {
+        .selection__menu {
+            li {
+                // text-align: right;
+            }
+        }
+        .selection__submenu-wrapper {
+
+            & > a:before {
+                // float: left;
+                border-right: 5px solid @gray;
+                border-left: none;
+            }
+        }
+        .selection__submenu {
+            right: 100%;
+            left: inherit;
+        }
+    }
+
+    &.selection-lg {
+        width: 300px;
+    }
+
+    & > .form-control {
+        position: relative;
+        background: none;
+        cursor: default;
+    }
+    
+    &:before {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin-top: 5px;
+        border-top: 5px solid @gray;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        content: "";
+    }
+
+    .selection__menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: @zIndexDropdown;
+        display: none;
+        min-width: @selection-width;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        border: 1px solid @dropdown-border;
+        border-radius: @border-radius-base;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+        &.active {
+            display: block;
+        }
+
+        &:before {
+            position: absolute;
+            top: -7px;
+            left: 5px;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid rgba(0, 0, 0, 0.15);
+            border-top: 0;
+            border-bottom-color: rgba(0, 0, 0, 0.2);
+            content: "";
+        }
+
+        &:after {
+            position: absolute;
+            top: -6px;
+            left: 6px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid #ffffff;
+            border-top: 0;
+            content: "";
+        }
+
+        & > li > a {
+            display: block;
+            padding: 5px 20px;
+            color: #333333;
+            white-space: nowrap;
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                color: #262626;
+                background-color: #f5f5f5;
+            }
+        }
+    }
+
+    .selection__submenu-wrapper {
+        position: relative;
+        
+        // &:hover > .selection__submenu {
+        //     display: block;
+        // }
+
+        & > a:before {
+            float: right;
+            display: block;
+            margin-top: 5px;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid @gray;
+            content: "";
+        }
+    }
+
+    .selection__submenu {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        display: none;
+        margin-top: -3px;
+        margin-left: -2px;
+        min-width: @selection-width;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        border: 1px solid @dropdown-border;
+        border-radius: @border-radius-base;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        &.active {
+            display: block;
+        }
+        & > li > a {
+            display: block;
+            padding: 5px 20px;
+            color: #333333;
+            white-space: nowrap;
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                color: #262626;
+                background-color: #f5f5f5;
+            }
+        }
+    }
+
+    .query__menu {
+        &:extend(.selection .selection__menu all);
+    }
+}

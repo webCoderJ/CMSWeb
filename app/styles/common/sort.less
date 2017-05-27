@@ -1,0 +1,42 @@
+.sort-option {
+    position: relative;
+    cursor: pointer;
+
+    .icon-box {
+        position: relative;
+        height: 100%;
+        padding-right: 10px;
+
+        .iconfont {
+            position: absolute;
+            font-size: 12px;
+            color: #ccc;
+            left: 4px;
+            transform-origin: 0 0;
+            transform: scale(0.8);
+
+            &.icon-sortup {
+                top: -1px;
+            }
+            &.icon-sortdown {
+                bottom: -7px;
+            }
+        }
+    }
+
+    &:hover {
+        background-color: #e2e2e2;
+    }
+
+    &.sort-asc {
+        .iconfont.icon-sortup {
+            color: #555;
+        }
+    }
+    
+    &.sort-desc {
+        .iconfont.icon-sortdown {
+            color: #555;
+        }
+    }
+}

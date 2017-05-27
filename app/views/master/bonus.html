@@ -1,0 +1,12 @@
+{{ test }}
+<button ng-click="getTestList()">GET</button>
+
+<ul>
+    <li ng-repeat="bonus in bonusList" ng-if="bonusList.length > 0">
+        username: {{ bonus.username || '*' }}
+        mt4_real: {{ bonus.mt4_real || '*' }}
+    </li>
+    <li ng-if="bonusList.length <= 0">
+        无数据
+    </li>
+</ul>

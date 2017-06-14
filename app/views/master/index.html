@@ -1,12 +1,24 @@
 <div class="master">
-    <div class="navbar master_navbar">
+    <div class="navbar">
         <ul class="nav-tabs clearfix">
-            <li ui-sref-active="active">
+            <li ui-sref-active="active" ng-if="hasPower(25)">
+                <a ui-sref="master.subpage({subpage: 'trader'})">交易者管理</a>
+            </li>
+            <li ui-sref-active="active" ng-if="hasPower(26)">
+                <a ui-sref="master.subpage({subpage: 'ranklist'})">排行榜管理</a>
+            </li>
+            <!-- <li ui-sref-active="active" ng-if="hasPower(27)">
+                <a ui-sref="master.subpage({subpage: 'whitelist'})">白名单</a>
+            </li>
+            <li ui-sref-active="active" ng-if="hasPower(28)">
                 <a ui-sref="master.subpage({subpage: 'bonus'})">高手分成</a>
             </li>
+            <li ui-sref-active="active" ng-if="hasPower(29)">
+                <a ui-sref="master.subpage({subpage: 'copier'})">复制者分成</a>
+            </li> -->
         </ul>
     </div>
-    <div class="customer_content">
+    <div class="common_content">
         <div ui-view="content"></div>
     </div>
 </div>

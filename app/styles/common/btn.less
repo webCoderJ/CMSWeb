@@ -1,18 +1,18 @@
+.btn-container {
+    padding: 0 20px;
+}
 .btn-wrapper {
-    padding: 20px 0;
+    padding-bottom: 20px;
     position: relative;
-
-    &.btn-right {
-        text-align: right;
-    }
-
-    &.inline-wrapper {
-        display: inline-block;
-        padding-top: 0px;
-    }
-    &.block-wrapper {
-        padding-top: 0px;
-    }
+}
+.btn-wrapper-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 30px;
+}
+.btn-modify {
+    color: #337ab7;
+    font-size: 12px;
 }
 
 .btn {
@@ -137,6 +137,38 @@
     }
     &.disabled:hover {
         background-color: #5bc0de;
+    }
+}
+
+.btn-info-box {
+    float: right;
+    position: relative;
+
+    > .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: @zIndexDropdown;
+        // display: none;
+        min-width: 15 * @baseSize;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+
+        &.hide {
+            display: none;
+        }
+
+        > li > label {
+            display: block;
+            padding: 3px 20px;
+            margin-bottom: 5px;
+        }
     }
 }
 

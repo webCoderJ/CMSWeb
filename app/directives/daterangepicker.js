@@ -151,15 +151,25 @@ export default ($timeout) => {
             })
 
             //设置默认值
-            $timeout(function () {
-                if (scope.bindModel.start && scope.bindModel.end) {
-                    ele.data('daterangepicker').setStartDate(scope.bindModel.start.replace(/\-/gi, '/'));
-                    ele.data('daterangepicker').setEndDate(scope.bindModel.end.replace(/\-/gi, '/'));
-                    ele.val(scope.bindModel.start + ' - ' + scope.bindModel.end);
-                }
-                //console.log(ele.data());
-            }, 200);
-
+            if (type == 'range-single') {
+                $timeout(function () {
+                    if (scope.bindModel.start) {
+                        ele.data('daterangepicker').setStartDate(scope.bindModel.start.replace(/\-/gi, '/'));
+                        ele.val(scope.bindModel.start);
+                    }
+                    //console.log(ele.data());
+                }, 200);
+            } else {
+                $timeout(function () {
+                    if (scope.bindModel.start && scope.bindModel.end) {
+                        ele.data('daterangepicker').setStartDate(scope.bindModel.start.replace(/\-/gi, '/'));
+                        ele.data('daterangepicker').setEndDate(scope.bindModel.end.replace(/\-/gi, '/'));
+                        ele.val(scope.bindModel.start + ' - ' + scope.bindModel.end);
+                    }
+                    //console.log(ele.data());
+                }, 200);
+            }
+            
             //moveRangePicker('system_modal');
 
             // function moveRangePicker(containerClass){

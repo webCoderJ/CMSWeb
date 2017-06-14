@@ -20,7 +20,12 @@ export default class Share {
                 params: $params
             }).then(function (data) {
                 // console.log(data);
-                return data.data;
+                if (data.data.err_code === 10000) {
+
+                    window.location.href = '/#/login/index';
+                } else {
+                    return data.data;
+                }
             }, function (error) {
                 self.errFunc(error);
             });
@@ -30,7 +35,11 @@ export default class Share {
             // console.log($params);
             return self.$http.post($url, $params).then(function (data) {
                 // console.log(data);
-                return data;
+                if (data.data.err_code === 10000) {
+                    window.location.href = '/#/login/index';
+                } else {
+                    return data.data;
+                }
             }, function (error) {
                 self.errFunc(error);
             });
@@ -38,9 +47,29 @@ export default class Share {
 
         if ($method.toUpperCase() === 'PUT') {
             // console.log($params);
-            return $http.put($url, $params).then(function (data) {
+            return self.$http.put($url, $params).then(function (data) {
                 // console.log(data);
-                return data;
+                if (data.data.err_code === 10000) {
+                    window.location.href = '/#/login/index';
+                } else {
+                    return data.data;
+                }
+            }, function (error) {
+                self.errFunc(error);
+            });
+        }
+
+        if ($method.toUpperCase() === 'DELETE') {
+            // console.log($params);
+            return self.$http.delete($url, {
+                params: $params
+            }).then(function (data) {
+                // console.log(data);
+                if (data.data.err_code === 10000) {
+                    window.location.href = '/#/login/index';
+                } else {
+                    return data.data;
+                }
             }, function (error) {
                 self.errFunc(error);
             });

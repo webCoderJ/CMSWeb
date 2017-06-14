@@ -40,6 +40,7 @@
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.14.0",
     "jquery": "^2.2.3",
+    "layer": "^0.1.0",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
     "oclazyload": "^1.0.9",

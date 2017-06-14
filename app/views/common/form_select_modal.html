@@ -1,0 +1,64 @@
+<div class="selection" ng-class="{to_left: bindInfo.direction}">
+    <input class="form-control selection__input" autocomplete="off" name="{{ bindInfo.name }}" type="text" placeholder="{{ bindPlaceholder || '请选择'}}" ng-required="required" ng-model="bindModel.key" ng-focus="showOptionsList()" ng-blur="hideOptionsList($event)" ng-keydown="preventDefault($event)" ng-keyup="queryOptions()" ng-class="{'disabled':disabled}" ng-disabled="disabled">
+    <ul class="selection__menu" ng-class="{active: bindInfo.optionsShow}">
+        <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in optionsList" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+            <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                    <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                    <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                        <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                            <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                                    <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                                    <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                        <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                                            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                                            <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                                <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                                                    <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                                                    <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                                        <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                                                            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                                                            <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                                                <li ng-class="{'selection__submenu-wrapper': option.children}" ng-repeat="option in option.children" ng-mouseover="selectionWrapperOver($event, option)" ng-mouseout="selectionWrapperOut($event, option)">
+                                                                    <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+
+                                                                    <ul ng-if="option.children" class="selection__submenu" ng-class="{active: option.myActive}">
+                                                                        <li ng-repeat="option in option.children">
+                                                                            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="query__menu" ng-if="bindInfo.query" ng-class="{active: bindInfo.queryShow && queryModel.queryData.length > 0}">
+        <li ng-repeat="option in queryModel.queryData">
+            <a href="" ng-click="selectOption(option)">{{ option.key }}</a>
+        </li>
+    </ul>
+    <div ng-if="bindErr" ng-show="frontErr[bindInfo.name].show">
+        <p class="alert-arrow" ng-show="bindForm[bindInfo.name].$error.required">{{ bindErr }}</p>
+    </div>
+</div>

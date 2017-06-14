@@ -1,4 +1,4 @@
-export default function LoginIndexController($scope, account) {
+export default function LoginIndexController($scope, account, share, $state) {
     $scope.loginInfo = {
         username: undefined,
         password: undefined
@@ -23,9 +23,19 @@ export default function LoginIndexController($scope, account) {
     $scope.hideErr = hideErr;
 
     function login () {
-        account.login($scope.info.username, $scope.info.password).then(function (deta) {
+        $scope.loading = true;
+        account.login($scope.loginInfo.username, $scope.loginInfo.password).then(function (data) {
 
-            console.log(deta);
+            $scope.loading = false;
+
+            if (data && data.is_succ) {
+                share.clear();
+                $state.go('/');
+
+            } else if (data && !(data.is_succ)) {
+                $scope.backErr.show = true;
+                $scope.backErr.msg = rs.data.error_msg;
+            }
         });
     }
 
@@ -50,4 +60,4 @@ export default function LoginIndexController($scope, account) {
         }
     }
 }
-LoginIndexController.$inject = ['$scope', 'account'];
+LoginIndexController.$inject = ['$scope', 'account', 'share', '$state'];

@@ -1,4 +1,4 @@
-export default ($timeout, customer) => {
+export default ($timeout, common) => {
 
     return {
         restrict: 'E',
@@ -84,10 +84,10 @@ export default ($timeout, customer) => {
                 }
             }
             function getUserAccordingNumber(number, arr) {
-                customer.getUserAccordingNumber(number).then(function (data) {
-                    // console.info(data);
-                    if (data.data.is_succ) {
-                        var extendArr = data.data.data;
+                common.getUserOfNum(number).then(function (data) {
+                    console.info(data);
+                    if (data.is_succ) {
+                        var extendArr = data.data;
 
                         angular.forEach(extendArr, function (value, index) {
 

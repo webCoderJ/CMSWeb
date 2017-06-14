@@ -1,0 +1,89 @@
+<div class="system_modal">
+  <span class="close" ng-click="close()">
+        <i class="icon iconfont">&#xe604;</i>
+    </span>
+
+  <h5 class="system_modal__title">
+    系统提示
+  </h5>
+
+  <div class="system_modal__content align" ng-if="!modalName">
+    <div class="text-center" ng-if="!backErr.show && redbagConfirmInfo.type == 'active'">
+      确认将此红包生效吗？生效后红包活动不可进行修改操作！
+    </div>
+    <div class="text-center" ng-if="!backErr.show && redbagConfirmInfo.type == 'fade'">
+      确认将此红包失效吗？
+    </div>
+    <div class="text-center" style="color:red" ng-if="backErr.show">
+      {{ backErr.msg + '！'}}
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="!isSubmitting">
+      <button class="btn btn-primary" ng-click="confirm()">
+                确认
+            </button>
+      <button class="btn btn-gray" ng-click="close()">
+                取消
+            </button>
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="isSubmitting">
+      <button class="btn btn-primary">
+        正在提交...
+      </button>
+    </div>
+  </div>
+
+  <div class="system_modal__content align" ng-if="modalName == 'confirmSubmit'">
+    <div class="text-center" ng-if="hdType == 'create'">
+      确认创建此红包吗？
+    </div>
+    <div class="text-center" ng-if="hdType == 'copy'">
+      确认复制红包吗？
+    </div>
+    <div class="text-center" ng-if="hdType == 'edit'">
+      确认保存修改吗？
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="!isSubmitting">
+      <button class="btn btn-primary" ng-click="submitForm()">
+          确认
+      </button>
+      <button class="btn btn-gray" ng-click="cancelSubmit()">
+          取消
+      </button>
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="isSubmitting">
+      <button class="btn btn-primary">
+        正在提交...
+      </button>
+    </div>
+  </div>
+
+  <div class="system_modal__content align" ng-if="modalName == 'MSG'">
+    <div class="text-center" ng-if="hdType == 'create' && is_succ">
+      红包活动创建成功！
+    </div>
+    <div class="text-center" ng-if="hdType == 'edit' && is_succ">
+      红包信息修改成功！
+    </div>
+    <div class="text-center" ng-if="hdType == 'copy' && is_succ">
+      红包复制成功！
+    </div>
+    <div class="text-center" style="color:red" ng-if="!is_succ">
+      {{ backErrMsg + '！'}}
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="isSubmitting">
+      <button class="btn btn-primary">
+        正在提交...
+      </button>
+    </div>
+    <div class="btn-wrapper payment_modal__btn_wrapper" ng-if="!isSubmitting">
+      <button class="btn btn-primary" ng-click="closeAll()" ng-if="is_succ">
+          确认
+      </button>
+      <div class="text-center" style="color:red" ng-if="!is_succ">
+        <button class="btn btn-gray" ng-click="cancelSubmit()">
+          取消
+      </button>
+      </div>
+    </div>
+  </div>
+</div>

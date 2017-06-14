@@ -9,7 +9,7 @@
  */
 
 
-export default () => {
+export default (tableRedraw) => {
     class TableSelect {
         constructor(conf) {
             Object.assign(this, {
@@ -30,7 +30,7 @@ export default () => {
         scope: {
             tableConf: '=',
             table: '=',
-            setLocalStorage: '&setLocalStorage'
+            tableFrontKey: '='
         },
         replace: true,
         template: 
@@ -45,7 +45,7 @@ export default () => {
                                'ng-checked="table[option[\'value\']]"' +
                                'ng-init="table[option[\'value\']] = true"' +
                                'ng-model="table[option[\'value\']]"' +
-                               'ng-click="setLocalStorage({name: option.value})">' +
+                               'ng-click="setLocalStorage(option.value)">' +
                         ' {{ option.key }}' +
                     '</label>' +
                 '</li>' +
@@ -53,6 +53,8 @@ export default () => {
         '</div>',
         link: function(scope, element, attrs, controller) {
             scope.tableSelect = new TableSelect(scope.tableConf);
+
+            scope.setLocalStorage = setLocalStorage;
 
             var $document = angular.element(document);
             var $dropDownList = angular.element(document.querySelector('.dropdown-menu'));
@@ -64,6 +66,18 @@ export default () => {
                     scope.tableSelect.dropDownList = false;
                 });
             });
+
+            function setLocalStorage (name) {
+                console.log(scope.tableFrontKey);
+                if (!localStorage.getItem(scope.tableFrontKey)) {
+                    localStorage.setItem(scope.tableFrontKey, "{}");
+                }
+                var storagePool = JSON.parse(localStorage[scope.tableFrontKey]);
+                storagePool[name] = scope.table[name];
+                localStorage[scope.tableFrontKey] = JSON.stringify(storagePool);
+
+                tableRedraw.setTableStyle();
+            }
         }
     }
 }

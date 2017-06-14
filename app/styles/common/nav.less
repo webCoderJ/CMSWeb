@@ -7,7 +7,7 @@
     width: 100%;
     height: 7 * @baseSize;
     line-height: 7 * @baseSize;
-    background: @blackTwo;
+    background: @backGroundCol;
     position: fixed;
     top: 0;
     left: 0;
@@ -113,18 +113,8 @@
         display: inline-block;
         padding-left: 10 * @baseSize;
 
-        &.tigerwit {
-            .logo {
-                background-image: url("../../images/crm_logo.png");
-            }
-        }
-        &.pkds {
-            .logo {
-                background-image: url("../../images/pkds_logo.png");
-            }
-        }
-
         > .logo {
+            background-image: url("../../images/crm_logo.png");
             display: inline-block;
             width: 120px;
             height: 38px;
@@ -150,30 +140,30 @@
                 &:hover,
                 &:active,
                 &:focus {
-                    background-color: @yellow;
-                    color: @black;
+                    // background-color: @yellow;
+                    color: @yellow;
                 }
             }
         }
         .active{
             a{
-                background-color: @yellow;
-                color: @black;
+                // background-color: @yellow;
+                color: @yellow;
             }
         }
     }
 }
 
 .navbar {
-    width: 100%;
+    width: 150px;
     position: fixed;
-    top: 7 * @baseSize;
+    top: 7.2 * @baseSize;
     left: 0;
     z-index: @zIndexFixed;
-    height: 5 * @baseSize;
-    border-bottom: 1px solid @whiteThree;
-    box-shadow: 0 0 3px #aaa;
-    background-color: #fff;
+    height: 100%;
+    // border-bottom: 1px solid @whiteThree;
+    // box-shadow: 0 0 3px #aaa;
+    background-color: @backGroundCol;
     text-align: center;
 
     &.navbar-modal {
@@ -183,31 +173,33 @@
     }
 
     .nav-tabs {
+        width: 100%;
+        padding: 0 15px;
 
         li {
-            float: left;
             height: 5 * @baseSize;
             line-height: 5 * @baseSize;
+            // border-bottom: 1px solid #fff;
 
             a {
                 display: inline-block;
-                color: @greyFour;
-                padding: 0 15px;
+                color: #fff;
+                width: 100%;
                 transition: all .4s ease-out;
             }
 
             &:hover {
                 a {
-                    color: @blackTwo;
+                    color: @yellow;
                 }
             }
 
             &.active {
-                border-bottom: 2px solid @greyTwo;
+                border-bottom: 1px solid @yellow;
                 box-sizing: border-box;
 
                 a {
-                    color: @blackTwo;
+                    color: @yellow;
                 }
             }
         }
@@ -218,4 +210,7 @@
             }
         }
     }
+}
+.common_content {
+    padding: 90px 20px 0px 170px;
 }

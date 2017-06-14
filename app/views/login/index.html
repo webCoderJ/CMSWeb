@@ -41,7 +41,7 @@
                 {{ backErr.msg || '登录失败，请稍候重试' }}
             </div>
             <div class="btn-wrapper">
-                <button ng-if="!loading" class="login_btn" ng-click="">
+                <button ng-if="!loading" class="login_btn" ng-click="login()">
                     登录
                 </button>
                 <button ng-if="loading" class="login_btn disabled" disabled>

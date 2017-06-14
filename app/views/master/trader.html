@@ -1,0 +1,284 @@
+<div loading-wrapper data-type="loading"></div>
+<div class="cms_container">
+    <div class="btn-container">
+        <div class="btn-wrapper">
+            <div list-select options-list="tran_type" bind-name="tran_type" data-placeholder="交易类型" bind-model-value="info.tran_type.value" bind-model-key="info.tran_type.key" bind-option-key="key" bind-option-value="value"></div>
+            <div class="form-control-wrapper width200">
+                <input class="form-control"
+                       name="anyway"
+                       type="text"
+                       placeholder="昵称/姓名/邮箱/电话"
+                       text-enter
+                       get-list="getTraderList()"
+                       ng-model="info.anyway.value">
+            </div>
+            <label class="form-label">余额大于$</label>
+            <div class="form-control-wrapper">
+                
+                <input class="form-control"
+                       name="balance"
+                       type="text"
+                       text-enter
+                       get-list="getTraderList()"
+                       ng-model="info.balance.value">
+            </div>
+            <label class="form-label">收益率大于</label>
+            <div class="form-control-wrapper">
+                
+                <input class="form-control"
+                       name="sum_rate"
+                       type="text"
+                       text-enter
+                       get-list="getTraderList()"
+                       ng-model="info.sum_rate.value">
+            </div>
+            <label style="margin-left: -15px; margin-right: 15px;">%</label>
+
+        </div>
+        <div class="btn-wrapper">
+            <label class="btn-wrapper-label">
+                <input type="checkbox"
+                       ng-checked="traderType===2"
+                       ng-click="chooseType('traderType')">
+                只显示未推荐
+            </label>
+
+            <label class="btn-wrapper-label">
+                <input type="checkbox"
+                       ng-checked="depositType===1"
+                       ng-click="chooseType('depositType')">
+                只显示入金客户
+            </label>
+
+            <label class="btn-wrapper-label">
+                <input type="checkbox"
+                       ng-checked="tigerType===2"
+                       ng-click="chooseType('tigerType')">
+                只显示老虎外汇
+            </label>
+
+            <label class="btn-wrapper-label">
+                <input type="checkbox"
+                       ng-checked="muguaType===2"
+                       ng-click="chooseType('muguaType')">
+                只显示木瓜金融
+            </label>
+        </div>
+        <div class="btn-wrapper clearfix">
+            <button ng-if="success" class="btn btn-primary" ng-click="getTraderList()">
+                <i class="icon iconfont">&#xe605;</i>
+                查询
+            </button>
+            <button ng-if="!success" class="btn btn-primary disabled" disabled>
+                <i class="icon iconfont">&#xe603;</i>
+                查询
+            </button>
+
+            <button class="btn btn-primary" ng-click="">
+                <i class="icon iconfont">&#xe605;</i>
+                导出
+            </button>
+
+            <div table-select table="table" table-conf="traderConf" table-front-key="storageFrontKey"></div>
+        </div>
+    </div>
+    <div class="table-content-wrapper">
+        <div class="table-header-wrapper" ng-class="{'table-fix': tableFix}">
+            <table class="table table-center table-header" ng-style="{marginLeft: tableFix ? tableScrollLeft : '0px'}">
+                <thead>
+                    <tr>
+                        <th ng-if="table.username">
+                            昵称
+                        </th>
+                        <th ng-if="table.deal_type">
+                            交易类型
+                        </th>
+                        <th ng-if="table.mt4_real">
+                            MT4帐号
+                        </th>
+                        <!-- <th ng-if="table.balance">
+                            账户余额
+                        </th> -->
+                        <th table-sort ng-if="table.balance" data-bind-text="账户余额" data-bind-sort="balance" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <!-- <th ng-if="table.lastTotalProfitRate">
+                            总收益率
+                        </th> -->
+                        <th table-sort ng-if="table.lastTotalProfitRate" data-bind-text="总收益率" data-bind-sort="lastTotalProfitRate" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <!-- <th ng-if="table.lastProfitRate">
+                            上一交易日收益率
+                        </th> -->
+                        <th table-sort ng-if="table.lastProfitRate" data-bind-text="上一交易日收益率" data-bind-sort="lastProfitRate" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <!-- <th ng-if="table.lastProfitSum">
+                            总收益金额
+                        </th> -->
+                        <th table-sort ng-if="table.lastProfitSum" data-bind-text="总收益金额" data-bind-sort="lastProfitSum" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <th ng-if="table.firstOpenTime">
+                            首次开仓时间
+                        </th>
+                        <th ng-if="table.lastTotalClose">
+                            总平仓次数
+                        </th>
+                        <!-- <th ng-if="table.lastMonthTotalClose">
+                            近一月平仓次数
+                        </th> -->
+                        <th table-sort ng-if="table.lastMonthTotalClose" data-bind-text="近一月平仓次数" data-bind-sort="lastMonthTotalClose" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <!-- <th ng-if="table.lastWeekTotalClose">
+                            近7日平仓次数
+                        </th> -->
+                        <th table-sort ng-if="table.lastWeekTotalClose" data-bind-text="近7日平仓次数" data-bind-sort="lastWeekTotalClose" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <th ng-if="table.lastMaxVolume">
+                            单次最大开仓手数
+                        </th>
+                        <th ng-if="table.avgPositionTime">
+                            平均持仓时间
+                        </th>
+                        <th ng-if="table.lastNormalRate">
+                            外汇占比
+                        </th>
+                        <th ng-if="table.lastMetalRate">
+                            贵金属占比
+                        </th>
+                        <th ng-if="table.lastOilRate">
+                            原油占比
+                        </th>
+                        <th ng-if="table.lastCFDRate">
+                            CFD占比
+                        </th>
+                        <th table-sort ng-if="table.maxRetract" 
+                            data-bind-text="最大回撤率" 
+                            data-bind-sort="maxRetract" 
+                            data-table-sort-info="tableSortInfo" 
+                            data-get-list="getTraderList()">
+                        </th>
+                        <th ng-if="table.lastProfitCloseRate">
+                            胜率
+                        </th>
+                        <!-- <th ng-if="table.copyCount">
+                            跟随人数
+                        </th> -->
+                        <th table-sort ng-if="table.copyCount" data-bind-text="跟随人数" data-bind-sort="copyCount" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <th ng-if="table.lastWeekCopyRate">
+                            近7日跟随率
+                        </th>
+                        <th ng-if="table.reason">
+                            下榜原因
+                        </th>
+                        <th ng-if="table.handle" style="min-width: 350px !important;">
+                            推荐
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-body-wrapper" ng-style="{'paddingTop': tableHeaderHeight}">
+            <table class="table table-center table-hover table-body">
+                <tbody>
+                    <tr ng-repeat="trader in traders">
+                        <td ng-if="table.username">
+                            <a href="" class="username" ng-click="openDetailMdl(trader)">
+                                {{ trader.username || '-' }}
+                            </a>
+                        </td>
+                        <td ng-if="table.deal_type">
+                            <span ng-if="trader.deal_type == 1">
+                                自主交易
+                            </span>
+                            <span ng-if="trader.deal_type == 2">
+                                跟单交易
+                            </span>
+                            <span ng-if="trader.deal_type == 3">
+                                正在跟单
+                            </span>
+                        </td>
+                        <td ng-if="table.mt4_real">
+                            {{ trader.mt4_real || '-' }}
+                        </td>
+                        <td ng-if="table.balance">
+                            {{ trader.balance || '0' }}
+                        </td>
+                        <td ng-if="table.lastTotalProfitRate">
+                            {{ trader.lastTotalProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastProfitRate">
+                            {{ trader.lastProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastProfitSum">
+                            {{ trader.lastProfitSum || '0' }}
+                        </td>
+                        <td ng-if="table.firstOpenTime">
+                            {{ trader.firstOpenTime || '-' }}
+                        </td>
+                        <td ng-if="table.lastTotalClose">
+                            {{ trader.lastTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastMonthTotalClose">
+                            {{ trader.lastMonthTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastWeekTotalClose">
+                            {{ trader.lastWeekTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastMaxVolume">
+                            {{ trader.lastMaxVolume || '0' }}
+                        </td>
+                        <td ng-if="table.avgPositionTime">
+                            {{ trader.avgPositionTime || '-' }}
+                        </td>
+                        <td ng-if="table.lastNormalRate">
+                            {{ trader.lastNormalRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastMetalRate">
+                            {{ trader.lastMetalRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastOilRate">
+                            {{ trader.lastOilRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastCFDRate">
+                            {{ trader.lastCFDRate || '0' }}%
+                        </td>
+                        <td ng-if="table.maxRetract">
+                            {{ trader.maxRetract ? (trader.maxRetract != 0 ? trader.maxRetract * 100 + '%' : '0') : '0%' }}
+                        </td>
+                        <td ng-if="table.lastProfitCloseRate">
+                            {{ trader.lastProfitCloseRate || '0' }}%
+                        </td>
+                        <td ng-if="table.copyCount">
+                            {{ trader.copyCount || '0' }}
+                        </td>
+                        <td ng-if="table.lastWeekCopyRate">
+                            {{ trader.lastWeekCopyRate || '0' }}%
+                        </td>
+                        <td ng-if="table.reason">
+                            {{ trader.reason || '-' }}
+                        </td>
+                        <td ng-if="table.handle" style="min-width: 350px !important;">
+                            <span ng-if="trader.deal_type == 1">
+                                <button ng-if="trader.status != 1" class="btn btn-primary" ng-click="openAddMasterMdl(trader, 1)">
+                                    前台高手
+                                </button>
+                                <button ng-if="trader.status == 1" class="btn btn-gray disabled" disabled>
+                                    前台高手
+                                </button>
+                                <button ng-if="trader.status != 2" class="btn btn-primary" ng-click="openAddMasterMdl(trader, 2)">
+                                    隐藏高手
+                                </button>
+                                <button ng-if="trader.status == 2" class="btn btn-gray disabled" disabled>
+                                    隐藏高手
+                                </button>
+                                <button class="btn btn-primary" ng-click="openRankeHistory(trader)">
+                                    榜单历史
+                                </button>
+                            </span>
+                            <span ng-if="trader.deal_type != 1">
+                                -
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="traders.length <= 0">
+                        <td>无数据</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div new-pagination pageconf="pageTrader"></div>
+</div>

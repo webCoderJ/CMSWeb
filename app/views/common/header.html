@@ -4,8 +4,31 @@
         <a class="logo" href=""></a>
     </div>
     <ul class="nav nav-pills">
-        <li ui-sref-active="active">
-            <a ui-sref="master.subpage({subpage: 'bonus'})">高手管理</a>
+        <li ui-sref-active="active" ng-if="hasPower(24)">
+            <a ui-sref="master.subpage">高手管理</a>
+        </li>
+        <li ui-sref-active="active" ng-if="hasPower(94)">
+            <a ui-sref="advertise.subpage">广告管理</a>
+        </li>
+        <li ui-sref-active="active" ng-if="hasPower(75)">
+            <a ui-sref="operation.subpage">活动管理</a>
         </li>
     </ul>
+    <div class="header-user">
+        <span ng-click="showHeaderDropDown($event)" class="header-user-name">{{share_cms_global.CMS_GLOBAL.user_power.user_name}}</span>
+        <ul class="header-dropdown-menu">
+            <!-- <li ng-click="global.modifyPassword()">
+                <i class="icon iconfont">&#xe60c;</i>
+                修改密码
+            </li>
+            <li ng-click="global.openMarketLinkMdl()">
+                <i class="icon iconfont">&#xe610;</i>
+                推广链接
+            </li> -->
+            <li ng-click="logOut()">
+                <i class="icon iconfont">&#xe60d;</i>
+                退出登录
+            </li>
+        </ul>
+    </div>
 </div>

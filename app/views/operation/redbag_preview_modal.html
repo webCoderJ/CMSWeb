@@ -1,0 +1,298 @@
+<!--<div loading-wrapper data-type="loading"></div>-->
+<div class="system_modal">
+    <h5 class="system_modal__title">
+        预览红包
+    </h5>
+    <div class="system_modal__content">
+        <form class="disabled_form">
+            <div class="row">
+                <label class="form-label align_right text-right">运营名称</label>
+                <div class="form-control-wrapper">
+                    <input class="form-control"
+                        name="opName"
+                        disabled
+                        type="text"
+                        placeholder="请填写运营名称"
+                        ng-model="redbagInfo.opName.value">
+                </div>
+                <label class="form-label align_right text-right">红包名称</label>
+                <div class="form-control-wrapper">
+                    <input class="form-control"
+                        name="rbName"
+                        disabled
+                        type="text"
+                        required
+                        placeholder="请填写红包名称"
+                        ng-model="redbagInfo.rbName.value">
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">红包描述</label>
+                <div class="form-control-wrapper">
+                    <textarea 
+                        class="form-control message_cont"
+                        style="width:295%"
+                        name="rbDes"
+                        disabled
+                        type="text"
+                        placeholder="请填写红包描述(非必须)"
+                        ng-model="redbagInfo.rbDes.value">
+                    </textarea>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">红包金额</label>
+                <div class="form-control-wrapper">
+                    <input class="form-control"
+                        name="rbSize"
+                        type="number"
+                        disabled
+                        placeholder="请填写红包金额"
+                        ng-model="redbagInfo.rbSize.value">
+                </div>
+                <label class="form-label align_right text-right">红包数量</label>
+                <div class="form-control-wrapper">
+                    <input class="form-control"
+                        name="rbAmount"
+                        type="number"
+                        disabled
+                        placeholder="请填写红包数量"
+                        ng-model="redbagInfo.rbAmount.value">
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">红包有效期</label>
+                <div class="form-control-wrapper">
+                    <daterangepicker 
+                        data-width="315px"
+                        data-show-err="frontErr.rbUseTime"
+                        data-picker-type="time_range" 
+                        data-disabled="true"
+                        data-bind-placeholder="请选择红包有效期" 
+                        data-bind-model="redbagInfo.rbUseTime">
+                    </daterangepicker>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">领取方式</label>
+                <div class="form-control-wrapper">
+                    <label class="radio disabled_cursor" ng-class="{'checked': redbagInfo.getWay == 1}">
+                        <input type="radio"
+                            value="1"
+                            disabled
+                            ng-model="redbagInfo.getWay">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        自动
+                    </label>
+                    <label class="radio disabled_cursor" style="margin-left: 25px" ng-class="{'checked': redbagInfo.getWay == 2}">
+                        <input type="radio"
+                            value="2"
+                            disabled
+                            ng-model="redbagInfo.getWay">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        手动
+                    </label>
+                </div>
+
+                <label class="form-label align_right text-right" ng-show="redbagInfo.getWay == 1">触发条件</label>
+                <div class="form-control-wrapper" ng-show="redbagInfo.getWay == 1">
+                    <div form-select 
+                        data-required="true"
+                        data-bind-form="redbagForm"
+                        data-bind-name="trigger_condition"
+                        data-bind-err="请选择触发条件"
+                        data-front-err="frontErr"
+
+                        data-disabled="true"
+
+                        data-options-list="trigger_condition" 
+                        data-bind-model="redbagInfo.trigger_condition" 
+                        data-bind-placeholder="请选择触发条件">
+                    </div>                    
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">领取用户</label>
+                <div form-select 
+                     data-required="true"
+                     data-bind-form="redbagForm"
+                     data-bind-name="whoCanGet" 
+                     data-bind-err="请选择领取用户"
+                     data-front-err="frontErr"
+
+                     data-disabled="true"
+
+                     data-options-list="whoCanGetList" 
+                     data-bind-model="redbagInfo.whoCanGet" 
+                     data-bind-placeholder="请选择领取用户">
+                </div>
+            </div>
+            <br>
+            <customer-creator 
+                show-flag="whoGet.showFlag"
+                data-disabled="true"
+                default-numbers="whoGet.defaultSpUsers"
+                show-err="frontErr.spUser.show"
+                customers="whoGet.customerList">
+            </customer-creator>
+            <div>
+                <label class="form-label align_right text-right">领取期限</label>
+                <div class="form-control-wrapper">
+                    <daterangepicker 
+                        data-disabled="true"
+                        data-width="315px"
+                        data-show-err="frontErr.rbAvailableDurantion"  
+                        data-picker-type="time_range" 
+                        data-bind-placeholder="请输入领取期限" 
+                        data-bind-model="redbagInfo.rbAvailableDurantion">
+                    </daterangepicker>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">兑换条件</label>
+                <div form-select
+                     data-required="true"
+                     data-bind-form="redbagForm"
+                     data-bind-name="rbExchangeCondition" 
+                     data-bind-err="请选择兑换条件"
+                     data-front-err="frontErr"
+
+                     data-disabled="true"
+
+                     data-options-list="rbExchangeCondition" 
+                     data-bind-model="redbagInfo.rbExchangeCondition" 
+                     data-bind-placeholder="请选择兑换条件">
+                </div>
+                <label class="form-label align_right text-right">兑换期限</label>
+                <div class="form-control-wrapper">
+                    <input class="form-control"
+                        name="rbExDuration"
+                        type="number"
+                        disabled
+                        ng-model="redbagInfo.rbExDuration">
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">第三方领取：</label>
+                <div class="form-control-wrapper">
+                    <label class="radio disabled_cursor" ng-class="{'checked': redbagInfo.isThird == '1'}">
+                        <input type="radio"
+                            value="1"
+                            required
+                            disabled
+                            ng-model="redbagInfo.isThird"
+                            ng-click="redbagInfo.isThird = '1'">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        是
+                    </label>
+                    <label class="radio disabled_cursor" style="margin-left: 25px" ng-class="{'checked': redbagInfo.isThird == '0'}">
+                        <input type="radio"
+                            value="0"
+                            required
+                            disabled
+                            ng-model="redbagInfo.isThird"
+                            ng-click="redbagInfo.isThird = '0'">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        否
+                    </label>
+                </div>
+                <label class="form-label align_right text-right">限制出金：</label>
+                <div class="form-control-wrapper">
+                    <label class="radio disabled_cursor" ng-class="{'checked': redbagInfo.payOut == '1'}">
+                        <input type="radio"
+                            value="1"
+                            required
+                            disabled
+                            ng-model="redbagInfo.payOut"
+                            ng-click="redbagInfo.payOut = '1'">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        是
+                    </label>
+                    <label class="radio disabled_cursor" style="margin-left: 25px" ng-class="{'checked': redbagInfo.payOut == '0'}">
+                        <input type="radio"
+                            value="0"
+                            required
+                            disabled
+                            ng-model="redbagInfo.payOut"
+                            ng-click="redbagInfo.payOut = '0'">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        否
+                    </label>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">CFD是否参加</label>
+                <div class="form-control-wrapper">
+                    <label class="radio disabled_cursor" ng-class="{'checked': redbagInfo.isCFD == '1'}">
+                        <input type="radio"
+                            value="1"
+                            disabled
+                            ng-model="redbagInfo.isCFD">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        是
+                    </label>
+                    <label class="radio disabled_cursor" style="margin-left: 25px" ng-class="{'checked': redbagInfo.isCFD == '0'}">
+                        <input type="radio"
+                            value="0"
+                            disabled
+                            ng-model="redbagInfo.isCFD">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        否
+                    </label>
+                </div>
+                <label class="form-label align_right text-right" style="margin-left: -80px;">红包池展示</label>
+                <div class="" style="display: inline;">
+                    <label class="radio disabled_cursor" ng-class="{'checked': redbagInfo.isInBagPool == '1'}">
+                        <input type="radio"
+                            value="1"
+                            disabled
+                            ng-model="redbagInfo.isInBagPool">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        所有用户可见
+                    </label>
+                    <label class="radio disabled_cursor" style="margin-left: 25px" ng-class="{'checked': redbagInfo.isInBagPool == '0'}">
+                        <input type="radio"
+                            value="0"
+                            disabled
+                            ng-model="redbagInfo.isInBagPool">
+                        <i class="iconfont circle-o">&#xe651;</i>
+                        <i class="iconfont dot-circle-o">&#xe616;</i>
+                        指定用户可见
+                    </label>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label class="form-label align_right text-right">备注</label>
+                <div class="form-control-wrapper">
+                    <textarea 
+                        class="form-control message_cont"
+                        style="width:295%"
+                        name="comment"
+                        disabled
+                        type="text"
+                        placeholder="请填写备注(非必须)"
+                        ng-model="redbagInfo.comment">
+                    </textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

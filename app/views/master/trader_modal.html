@@ -1,0 +1,36 @@
+<div class="system_modal">
+    <span class="close" ng-click="close()">
+        <i class="icon iconfont">&#xe604;</i>
+    </span>
+
+    <h5 class="system_modal__title">
+        推荐高手
+    </h5>
+
+    <div class="system_modal__content ranklist_modal__content" ng-if="!backErr.show">
+        <div class="payment_modal__tip">
+            确认将 {{ username }} 推荐到{{ status }}高手榜吗？
+        </div>
+        <div class="btn-wrapper payment_modal__btn_wrapper">
+            <button class="btn btn-primary" ng-click="addTraderRanklist()" ng-show="!loading">
+                确认
+            </button>
+            <button class="btn btn-gray" ng-click="close()" ng-show="!loading">
+                取消
+            </button>
+            <button class="btn btn-primary disabled" disabled ng-show="loading">
+                提交中...
+            </button>
+        </div>
+    </div>
+    <div class="system_modal__content ranklist_modal__content" ng-if="backErr.show">
+        <div class="payment_modal__tip">
+            {{ backErr.msg || '推荐失败，请联系管理员哦～' }}
+        </div>
+        <div class="btn-wrapper payment_modal__btn_wrapper">
+            <button class="btn btn-primary" ng-click="close()">
+                确认
+            </button>
+        </div>
+    </div>
+</div>

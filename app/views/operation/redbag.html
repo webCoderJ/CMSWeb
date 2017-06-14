@@ -1,0 +1,182 @@
+<div loading-wrapper data-type="loading"></div>
+<div class="cms_container">
+    <div class="btn-container">
+        <div class="btn-wrapper">
+            <div daterangepicker data-picker-type="range" 
+                data-bind-placeholder="创建时间" 
+                data-show-err="frontErr.rbUseTime.show"
+                data-bind-model="info.timePicker">
+            </div>
+            <div class="form-control-wrapper width200">
+                <input class="form-control anyway float-left"
+                    name="anyway"
+                    type="text"
+                    placeholder="红包ID/红包名/运营名"
+                    ng-model="info.anyway"
+                    text-enter
+                    get-list="getRedbagList()">
+            </div>
+            <div class="form-control-wrapper">
+                <div form-select 
+                    data-bind-err="请选择触发条件"
+                    data-options-list="redbagStatusList" 
+                    data-bind-model="info.redbagStatus" 
+                    data-bind-placeholder="红包状态">
+                </div>                    
+            </div>
+        </div>
+        <div class="btn-wrapper">
+            <button class="btn btn-primary" ng-click="getRedbagList()">
+                <i class="icon iconfont">&#xe605;</i>
+                查询
+            </button>
+            <button class="btn btn-primary" ng-if="hasPower(76)" ng-click="redbagHandle('create')">
+                <i class="icon iconfont">&#xe606;</i>
+                创建
+            </button>
+
+            <div table-select table="table" table-conf="redbagConf" table-front-key="storageFrontKey"></div>
+        </div>
+    </div>
+    <div class="table-content-wrapper">
+        <div class="table-header-wrapper" ng-class="{'table-fix': tableFix}">
+            <table class="table table-center table-header" ng-style="{marginLeft: tableFix ? tableScrollLeft : '0px'}">
+                <thead>
+                    <tr>
+                        <th ng-if="table.edit"></th>
+                        <th ng-if="table.id">红包ID</th>
+                        <th ng-if="table.created_at">创建时间</th>
+                        <th ng-if="table.operation_name" style="min-width: 120px !important;">运营名称</th>
+                        <th ng-if="table.name">红包名称</th>
+                        <th ng-if="table.amount">红包金额</th>
+                        <th ng-if="table.valid_time">有效期</th>
+                        <th ng-if="table.valid_acquire">领取有效期</th>
+                        <th ng-if="table.acquire_mode">领取方式</th>
+                        <th ng-if="table.user_type">领取用户</th>
+                        <th ng-if="table.acquire_condition">领取触发条件</th>
+                        <th ng-if="table.pay_condition" style="min-width: 150px !important;">兑换条件</th>
+                        <th ng-if="table.is_third">第三方是否可领取</th>
+                        <th ng-if="table.pay_out">限制出金</th>
+                        <th ng-if="table.cfd">CFD是否参与</th>
+                        <th ng-if="table.num">红包数量</th>
+                        <th ng-if="table.receive_num">已领取数</th>
+                        <th ng-if="table.converted_num">已兑换数</th>
+                        <th ng-if="table.diff_time">计时池</th>
+                        <th ng-if="table.handle" style="min-width: 252px !important;">操作/状态</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-body-wrapper" ng-style="{'paddingTop': tableHeaderHeight}">
+            <table class="table table-center table-hover table-body">
+                <tbody>
+                    <tr tr-animate ng-repeat="redbag in redbagList track by $index">
+                        <td ng-if="table.edit">
+                            <a  ng-if="hasPower(76) && redbag.status == 1"
+                                title="编辑红包" 
+                                ng-click="redbagHandle('edit',redbag)">
+                                <i class="icon iconfont eidtor" ng-class="{'color-primary':true}">&#xe602;</i>
+                            </a>
+                            <a ng-if="redbag.status != 1" class="disabled">
+                                <i class="icon iconfont eidtor disabled disabled_cursor" ng-class="{'color-gray':true}">&#xe602;</i>
+                            </a>
+                            <a ng-if="hasPower(76)" 
+                                ng-click="redbagHandle('copy',redbag)" title="复制红包">
+                                <i class="icon iconfont eidtor" ng-class="{'color-primary':true}">&#xe745;</i>
+                            </a>
+                        </td>
+                        <td ng-if="table.id">{{ redbag.id }}</td>
+                        <td ng-if="table.created_at">{{ redbag.created_at }}</td>
+                        <td ng-if="table.operation_name" ng-click="redbagPreview(redbag)" title="点击预览红包详情" style="cursor:pointer;min-width: 120px !important;">
+                            <a class="username">
+                                {{ redbag.operation_name }}
+                            </a>
+                        </td>
+                        <td ng-if="table.name">{{ redbag.name }}</td>
+                        <td ng-if="table.amount">{{ redbag.amount }}</td>
+                        <td ng-if="table.valid_time">{{ redbag.valid_start + ' - ' + redbag.valid_end }}</td>
+                        <td ng-if="table.valid_acquire">{{ redbag.acquire_start + ' - ' + redbag.acquire_end }}</td>
+                        <td ng-if="table.acquire_mode">{{ redbag.acquire_mode }}</td>
+                        <td ng-if="table.user_type">{{ redbag.user_type }}</td>
+                        <td ng-if="table.acquire_condition">{{ redbag.acquire_condition }}</td>
+                        <td ng-if="table.pay_condition" style="min-width: 150px !important;">{{ redbag.pay_condition }}</td>
+                        <td ng-if="table.is_third">{{ redbag.is_third == 1 ? '是' : '否' }}</td>
+                        <td ng-if="table.pay_out">{{ redbag.pay_out == 1 ? '是' : '否' }}</td>
+                        <td ng-if="table.cfd">{{ redbag.cfd }}</td>
+                        <td ng-if="table.num">
+                            <a ng-class="{'username cursor_pointer': (redbag.status == 2)}" 
+                                ng-click="modRedbagNum(redbag)"
+                                title="点击修改红包数量"
+                                ng-if="!redbag.rbInEdit && !redbag.isRbModNumLoading">
+                                 {{ redbag.num }}
+                            </a>
+                            <div class="form-control-wrapper mg-rg-0" ng-if="redbag.status == 2 && !redbag.isRbModNumLoading && redbag.rbInEdit && hasPower(76)">
+                                <input class="form-control anyway float-left"
+                                    type="num"
+                                    auto-focus
+                                    placeholder="红包数量"
+                                    ng-model="redbag.num"
+                                    ng-blur="cancelModRedbagNum(redbag)"
+                                    text-enter
+                                    get-list="comfirmModRedbagNum(redbag)">
+                                <div ng-if="redbag.modNumErr.show">
+                                    <p class="alert-arrow">
+                                        {{ redbag.modNumErr.msg }}
+                                    </p>
+                                </div>
+                                <div ng-if="redbag.rbInEdit && !redbag.modNumErr.show">
+                                    <p class="alert-arrow">
+                                        回车以提交
+                                    </p>
+                                </div>
+                            </div>
+                            <i ng-if="redbag.isRbModNumLoading" class="icon iconfont icon_loading" style="font-size:16px;color:#555;">&#xe603;</i>
+                        </td>
+                        <td ng-if="table.receive_num">
+                            <a ng-if="redbag.status == 1">
+                                {{ redbag.receive_num }}
+                            </a>                        
+                            <a class="username cursor_pointer" title="点击查看领取详情" ng-if="redbag.status != 1" ng-click="openReceiveModal(redbag,1)">
+                                {{ redbag.receive_num }}
+                            </a>                        
+                        </td>
+                        <td ng-if="table.converted_num" >
+                            <a ng-if="redbag.status == 1">
+                                {{ redbag.converted_num }}
+                            </a>
+                            <a class="username cursor_pointer" title="点击查看兑换详情" ng-if="redbag.status != 1" ng-click="openReceiveModal(redbag,2)">
+                                {{ redbag.converted_num }}
+                            </a>
+                        </td>
+                        <td ng-if="table.diff_time">
+                            <a time-counter ng-model="redbag.diff_time" data-bind-model="redbag" data-event-name="getRedbagList">{{ redbag.diff_time }}</a>
+                        </td>
+                        <td ng-if="table.handle" style="min-width: 252px !important;">
+                            <button ng-if="hasPower(76) && redbag.status == 1" class="btn btn-succ" ng-click="activeOrFaden('active', redbag)">
+                                生效
+                            </button>
+                            <button ng-if="hasPower(76) && redbag.status == 2" class="btn btn-gray disabled" disabled>
+                                已生效
+                            </button>
+                            <button ng-if="hasPower(76) && (redbag.status == 2 || redbag.status == 1)" class="btn btn-danger" ng-click="activeOrFaden('fade', redbag)">
+                                失效
+                            </button>
+                            <button ng-if="hasPower(76) && redbag.status == 4" class="btn btn-gray disabled" disabled>
+                                已失效
+                            </button>
+                            <button ng-if="hasPower(76) && redbag.status == 3" class="btn btn-gray disabled" disabled>
+                                已过期
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="redbagList.length <= 0">
+                        <td colspan="20">
+                            无数据
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div new-pagination pageconf="PageRedbag"></div>
+</div>

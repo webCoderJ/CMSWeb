@@ -1,0 +1,215 @@
+<div loading-wrapper data-type="loading"></div>
+<div class="cms_container">
+    <div class="btn-container">
+        <div class="btn-wrapper">
+            <div class="form-control-wrapper width200">
+                <input class="form-control"
+                       name="anyway"
+                       type="text"
+                       placeholder="昵称/姓名/邮箱/电话"
+                       text-enter
+                       get-list="getRankList()"
+                       ng-model="info.anyway.value">
+            </div>
+            <div list-select options-list="status" bind-name="status" data-placeholder="榜单类型" bind-model-value="info.status.value" bind-model-key="info.status.key" bind-option-key="key" bind-option-value="value"></div>
+            <label class="form-label">余额大于$</label>
+            <div class="form-control-wrapper">
+                
+                <input class="form-control"
+                       name="balance"
+                       type="text"
+                       text-enter
+                       get-list="getRankList()"
+                       ng-model="info.balance.value">
+            </div>
+            <label class="form-label">收益率大于</label>
+            <div class="form-control-wrapper">
+                
+                <input class="form-control"
+                       name="sum_rate"
+                       type="text"
+                       text-enter
+                       get-list="getRankList()"
+                       ng-model="info.sum_rate.value">
+            </div>
+            <label style="margin-left: -15px; margin-right: 15px;">%</label>
+
+        </div>
+        <div class="btn-wrapper clearfix">
+            <button ng-if="success" class="btn btn-primary" ng-click="getRankList()">
+                <i class="icon iconfont">&#xe605;</i>
+                查询
+            </button>
+            <button ng-if="!success" class="btn btn-primary disabled" disabled>
+                <i class="icon iconfont">&#xe603;</i>
+                查询
+            </button>
+
+            <div table-select table="table" table-conf="ranklistConf" table-front-key="storageFrontKey"></div>
+        </div>
+    </div>
+    <div class="table-content-wrapper">
+        <div class="table-header-wrapper" ng-class="{'table-fix': tableFix}">
+            <table class="table table-center table-header" ng-style="{marginLeft: tableFix ? tableScrollLeft : '0px'}">
+                <thead>
+                    <tr>
+                        <th ng-if="table.username">
+                            昵称
+                        </th>
+                        <th ng-if="table.mt4_id">
+                            MT4帐号
+                        </th>
+                        <th ng-if="table.balance">
+                            账户余额
+                        </th>
+                        <th ng-if="table.lastTotalProfitRate">
+                            总收益率
+                        </th>
+                        <th ng-if="table.lastProfitRate">
+                            上一交易日收益率
+                        </th>
+                        <th ng-if="table.lastProfitSum">
+                            总收益金额
+                        </th>
+                        <th ng-if="table.sumPay">
+                            当月分成
+                        </th>
+                        <th ng-if="table.firstOpenTime">
+                            首次开仓时间
+                        </th>
+                        <th ng-if="table.lastTotalClose">
+                            总平仓次数
+                        </th>
+                        <th ng-if="table.lastMonthTotalClose">
+                            近一月平仓次数
+                        </th>
+                        <th ng-if="table.lastWeekTotalClose">
+                            近7日平仓次数
+                        </th>
+                        <th ng-if="table.lastMaxVolume">
+                            单次最大开仓手数
+                        </th>
+                        <th ng-if="table.avgPositionTime">
+                            平均持仓时间
+                        </th>
+                        <th ng-if="table.lastNormalRate">
+                            外汇占比
+                        </th>
+                        <th ng-if="table.lastMetalRate">
+                            贵金属占比
+                        </th>
+                        <th ng-if="table.lastOilRate">
+                            原油占比
+                        </th>
+                        <th ng-if="table.lastCFDRate">
+                            CFD占比
+                        </th>
+                        <th ng-if="table.lastProfitCloseRate">
+                            胜率
+                        </th>
+                        <th ng-if="table.copyCount">
+                            跟随人数
+                        </th>
+                        <th ng-if="table.lastWeekCopyRate">
+                            近7日跟随率
+                        </th>
+                        <th ng-if="table.status">
+                            榜单
+                        </th>
+                        <th ng-if="table.handle" style="min-width:260px!important;">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-body-wrapper" ng-style="{'paddingTop': tableHeaderHeight}">
+            <table class="table table-center table-hover table-body">
+                <tbody>
+                    <tr ng-repeat="rank in ranklist">
+                        <td ng-if="table.username">
+                            <a href="" class="username" ng-click="openDetailMdl(rank)">
+                                {{ rank.username || '-' }}
+                            </a>
+                        </td>
+                        <td ng-if="table.mt4_id">
+                            {{ rank.mt4_id || '-' }}
+                        </td>
+                        <td ng-if="table.balance">
+                            {{ rank.balance || '0' }}
+                        </td>
+                        <td ng-if="table.lastTotalProfitRate">
+                            {{ rank.lastTotalProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastProfitRate">
+                            {{ rank.lastProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastProfitSum">
+                            {{ rank.lastProfitSum || '0' }}
+                        </td>
+                        <td ng-if="table.sumPay">
+                            {{ rank.sumPay || '0' }}
+                        </td>
+                        <td ng-if="table.firstOpenTime">
+                            {{ rank.firstOpenTime || '-' }}
+                        </td>
+                        <td ng-if="table.lastTotalClose">
+                            {{ rank.lastTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastMonthTotalClose">
+                            {{ rank.lastMonthTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastWeekTotalClose">
+                            {{ rank.lastWeekTotalClose || '0' }}
+                        </td>
+                        <td ng-if="table.lastMaxVolume">
+                            {{ rank.lastMaxVolume || '0' }}
+                        </td>
+                        <td ng-if="table.avgPositionTime">
+                            {{ rank.avgPositionTime || '-' }}
+                        </td>
+                        <td ng-if="table.lastNormalRate">
+                            {{ rank.lastNormalRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastMetalRate">
+                            {{ rank.lastMetalRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastOilRate">
+                            {{ rank.lastOilRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastCFDRate">
+                            {{ rank.lastCFDRate || '0' }}%
+                        </td>
+                        <td ng-if="table.lastProfitCloseRate">
+                            {{ rank.lastProfitCloseRate || '0' }}%
+                        </td>
+                        <td ng-if="table.copyCount">
+                            {{ rank.copyCount || '0' }}
+                        </td>
+                        <td ng-if="table.lastWeekCopyRate">
+                            {{ rank.lastWeekCopyRate || '0' }}%
+                        </td>
+                        <td ng-if="table.status">
+                            <span ng-if="rank.status == 1">前台高手榜</span>
+                            <span ng-if="rank.status == 2">隐藏高手榜</span>
+                        </td>
+                        <td ng-if="table.handle" style="min-width:260px!important;">
+                            <span>
+                                <button class="btn btn-primary" ng-if="hasPower(53)" ng-click="openDeleteMasterMdl(rank)">
+                                    下榜
+                                </button>
+                                <button class="btn btn-primary" ng-if="hasPower(53)" ng-click="openRankeHistory(rank)">
+                                    榜单历史
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-if="traders.length <= 0">
+                        <td>无数据</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div new-pagination pageconf="pageRanklist"></div>
+</div>

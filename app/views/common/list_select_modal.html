@@ -1,0 +1,25 @@
+<span class="selection">
+    <input type="text"  
+       class="form-control list_select_input" 
+       name="{{ bindInfo.name }}" 
+       type="text"
+       placeholder="{{ bindInfo.placeholder }}"
+       autocomplete="off"
+       ng-model="bindModelKey" 
+       ng-focus="showOptionsList()"
+       ng-keydown="preventDefault($event)" 
+       ng-keyup="queryOptions()"
+       ng-click="stopPropagation($event)">
+    <ul class="selection__menu" ng-class="{active: bindInfo.optionsShow && optionsList.length > 0}" style="max-height: 200px; overflow-y: scroll;">
+        <li ng-repeat="option in optionsList">
+            <a href="" ng-click="selectOption(option)">
+                {{ option[key] }}
+            </a>
+        </li>
+    </ul>
+    <ul class="query__menu" ng-if="bindInfo.query" ng-class="{active: bindInfo.queryShow && queryOptionsList.queryData.length > 0}">
+        <li ng-repeat="option in queryOptionsList.queryData">
+            <a href="" ng-click="selectOption(option)">{{ option[key] }}</a>
+        </li>
+    </ul>
+</span>

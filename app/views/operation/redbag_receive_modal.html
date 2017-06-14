@@ -1,0 +1,60 @@
+<!--<div loading-wrapper data-type="loading"></div>-->
+<div class="system_modal">
+    <span class="close" ng-click="closeModal()">
+        <i class="icon iconfont">&#xe604;</i>
+    </span>
+
+    <h5 class="system_modal__title" ng-if="passedScope.type == 1">
+        领取记录
+    </h5>
+    <h5 class="system_modal__title" ng-if="passedScope.type == 2">
+        兑换记录
+    </h5>
+    <!--<div class="navbar navbar-modal">
+        <ul class="nav-tabs clearfix">
+            <li ng-class="{'active': modalDetail === 'summary'}" ng-click="changeModalDetail('summary')">
+                <a href="">信息总览</a>
+            </li>
+        </ul>
+    </div>-->
+    
+    <div class="system_modal__content">
+        <div>
+            <div class="table-modal-wrapper">
+                <table class="table table-center table-hover">
+                    <thead>
+                        <tr>
+                            <th>领取用户</th>
+                            <th>状态</th>
+                            <th>领取时间</th>
+                            <th>兑换时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="receiveList && receiveList.length > 0" ng-repeat="cell in receiveList track by $index">
+                            <td>
+                                <a class="username cursor_pointer">{{ cell.user_name || ''}}</a>
+                            </td>
+                            <td>
+                                <a ng-if="cell.status == 1">已领取</a>
+                                <a ng-if="cell.status == 2">可兑换</a>
+                                <a ng-if="cell.status == 3">已兑换</a>
+                                <a ng-if="cell.status == 4">已过期</a>
+                                <a ng-if="cell.status == 5">已失效</a>
+                            </td>
+                            <td>{{ cell.acquire_time || '_ _ : _ _'}}</td>
+                            <td>{{ cell.pay_time || '_ _ : _ _'}}</td>
+                        </tr>
+                        <tr ng-if="receiveList && receiveList.length <= 0">
+                            <td colspan="4">无数据 - _ - !</td>
+                        </tr>
+                        <tr ng-if="!getReceiveList">
+                            <td colspan="4">加载中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div new-pagination pageconf="pageRedbagReceive"></div>
+        </div>
+    </div>
+</div>

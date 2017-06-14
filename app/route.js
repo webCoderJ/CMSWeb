@@ -6,6 +6,11 @@ export default function ($stateProvider, $locationProvider, $urlRouterProvider, 
 
     $stateProvider
 
+        .state('/', {
+            url: '/',
+            views: {
+            }
+        })
         .state('404', {
             url: '/404',
             views: {
@@ -86,6 +91,82 @@ export default function ($stateProvider, $locationProvider, $urlRouterProvider, 
                         // $stateParams.subpage = $stateParams.subpage ||
                         //     'deposit';
                         var ctrlPrefix = 'Master';
+                        var ctrlSuffix = 'Controller';
+                        var ctrlRoot = modCtrlName($stateParams.subpage);
+                        return ctrlPrefix + ctrlRoot + ctrlSuffix;
+                    }]
+                }
+            }
+        })
+        // 活动管理
+        .state('operation', {
+            views: {
+                '@': {
+                    templateUrl: require(
+                        'file?name=views/common/[name].[hash].[ext]!./views/common/layout.html'
+                    )
+                },
+                'hd@operation': {
+                    templateUrl: require(
+                        'file?name=views/common/[name].[hash].[ext]!./views/common/header.html'
+                    )
+                },
+                'bd@operation': {
+                    templateUrl: require(
+                        'file?name=views/operation/[name].[hash].[ext]!./views/operation/index.html'
+                    )
+                }
+            }
+        })
+        .state('operation.subpage', {
+            url: '/operation/:subpage',
+            views: {
+                'content@operation': {
+                    templateUrl: function ($stateParams) {
+                        return require(
+                            'file?name=views/operation/[name].[hash].[ext]!./views/operation/' +
+                            $stateParams.subpage + '.html');
+                    },
+                    controllerProvider: ['$stateParams', function ($stateParams) {
+                        var ctrlPrefix = 'Operation';
+                        var ctrlSuffix = 'Controller';
+                        var ctrlRoot = modCtrlName($stateParams.subpage);
+                        return ctrlPrefix + ctrlRoot + ctrlSuffix;
+                    }]
+                }
+            }
+        })
+        // 广告管理
+        .state('advertise', {
+            views: {
+                '@': {
+                    templateUrl: require(
+                        'file?name=views/common/[name].[hash].[ext]!./views/common/layout.html'
+                    )
+                },
+                'hd@advertise': {
+                    templateUrl: require(
+                        'file?name=views/common/[name].[hash].[ext]!./views/common/header.html'
+                    )
+                },
+                'bd@advertise': {
+                    templateUrl: require(
+                        'file?name=views/advertise/[name].[hash].[ext]!./views/advertise/index.html'
+                    )
+                }
+            }
+        })
+        .state('advertise.subpage', {
+            url: '/advertise/:subpage',
+            views: {
+                'content@advertise': {
+                    templateUrl: function ($stateParams) {
+                        return require(
+                            'file?name=views/advertise/[name].[hash].[ext]!./views/advertise/' +
+                            $stateParams.subpage + '.html');
+                    },
+                    controllerProvider: ['$stateParams', function ($stateParams) {
+                        var ctrlPrefix = 'Advertise';
                         var ctrlSuffix = 'Controller';
                         var ctrlRoot = modCtrlName($stateParams.subpage);
                         return ctrlPrefix + ctrlRoot + ctrlSuffix;

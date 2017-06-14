@@ -1,0 +1,12 @@
+<div class="advertise">
+    <div class="navbar">
+        <ul class="nav-tabs clearfix">
+            <li ui-sref-active="active" ng-if="hasPower(95)">
+                <a ui-sref="advertise.subpage({subpage: 'home'})">首页</a>
+            </li>
+        </ul>
+    </div>
+    <div class="common_content">
+        <div ui-view="content"></div>
+    </div>
+</div>

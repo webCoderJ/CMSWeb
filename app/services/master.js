@@ -7,7 +7,7 @@ export default class Master {
             urls: {
                 traderList: '/api/customer/list',
                 ranklistList: '/api/master/list',
-                getRankHistory: '/api/master/delete',
+                getRankHistory: '/api/master/history',
                 deleteTraderRanklist: '/api/master/delete',
                 addTraderRanklist: '/api/master/add'
             }
@@ -81,7 +81,7 @@ export default class Master {
      *      
      */
     addTraderRanklist (ids, status) {
-        return this.share.publicRequest(this.settings.urls.addTraderRanklist, 'GET', {
+        return this.share.publicRequest(this.settings.urls.addTraderRanklist, 'POST', {
             mt4Id: ids,
             status: status
         });

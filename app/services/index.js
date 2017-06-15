@@ -9,6 +9,7 @@ import master from './master';
 import advertise from './advertise';
 import operation from './operation';
 import filedForDirective from './filed_for_directive';
+import layer from './layer';
 import './modal';
 import './newModal';
 
@@ -23,3 +24,4 @@ export default angular.module('app.service', ['app.modal', 'app.new_modal'])
     .factory('$transition', ['$q', '$timeout', '$rootScope', transition])
     .factory('$$localStorage', $$localStorage)
     .factory('tableRedraw', ['$rootScope', '$timeout', tableRedraw])
+    .factory('layer', layer)

@@ -7,15 +7,9 @@
                 data-show-err="frontErr.rbUseTime.show"
                 data-bind-model="info.timePicker">
             </div>
-            <div class="form-control-wrapper width200">
-                <input class="form-control anyway float-left"
-                    name="anyway"
-                    type="text"
-                    placeholder="红包ID/红包名/运营名"
-                    ng-model="info.anyway"
-                    text-enter
-                    get-list="getRedbagList()">
-            </div>
+
+            <div list-select-new options-list="userType" bind-type-name="userType" bind-info-name="userInfo" data-type-placeholder="查询类型" data-info-placeholder="查询相关信息" bind-model-type-value="info.userType.value" bind-model-type-key="info.userType.key" bind-model-info-value="info.userInfo.value" bind-option-key="key" bind-option-value="value" get-list="getRedbagList()"></div>
+            
             <div class="form-control-wrapper">
                 <div form-select 
                     data-bind-err="请选择触发条件"

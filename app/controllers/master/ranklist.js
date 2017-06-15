@@ -92,6 +92,7 @@ export default function MasterRanklistController($scope, master, $$localStorage,
     ];
     var pagesize;
 
+    $scope.export_url = '/api/master/export';
     $scope.ranklistConf = {
         optionList: tableOptions
     };
@@ -105,6 +106,32 @@ export default function MasterRanklistController($scope, master, $$localStorage,
             getRankList(this.currentPage);
         }
     };
+    $scope.userType = [
+        {
+            key: 'mt4账号',
+            value: '1'
+        },
+        {
+            key: '用户昵称',
+            value: '2'
+        },
+        {
+            key: '真实姓名',
+            value: '3'
+        },
+        {
+            key: 'user_code',
+            value: '4'
+        },
+        {
+            key: '电话号码',
+            value: '5'
+        },
+        {
+            key: '电子邮箱',
+            value: '6'
+        },
+    ];
     $scope.status = [
         {
             key: '全部',
@@ -118,7 +145,11 @@ export default function MasterRanklistController($scope, master, $$localStorage,
         }
     ];
     $scope.info = {
-        anyway: {
+        userType: {
+            key: undefined,
+            value: undefined
+        },
+        userInfo: {
             key: undefined,
             value: undefined
         },
@@ -144,6 +175,7 @@ export default function MasterRanklistController($scope, master, $$localStorage,
     $scope.openDetailMdl = openDetailMdl;
     $scope.openRankeHistory = openRankeHistory;
     $scope.openDeleteMasterMdl = openDeleteMasterMdl;
+    $scope.getExportSearch = getExportSearch;
 
     getRankList();
     tableRedraw.setTableStyleBase();
@@ -158,14 +190,15 @@ export default function MasterRanklistController($scope, master, $$localStorage,
         $scope.page = page;
 
         master.getRanklistList({
-            anyway: $scope.info.anyway.value,
+            userType: $scope.info.userType.value,
+            userInfo: $scope.info.userInfo.value,
             status: $scope.info.status.value,
             balance: $scope.info.balance.value,
             sumRate: $scope.info.sum_rate.value,
             offset: offset,
             limit: pagesize
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             $$localStorage.setTableLocalStorage($scope.storageFrontKey, $scope.table);
             $scope.success = true;
             $scope.$emit('hideLoadingWrapper');
@@ -250,11 +283,11 @@ export default function MasterRanklistController($scope, master, $$localStorage,
                         $scope.$emit('hideLoadingWrapper');
 
                         if (data.is_succ) {
-                            $scope.rankHistory = data.data;
+                            $scope.rankHistory = data.data.data;
 
                             angular.extend($scope.pageRankHistory, {
-                                totalCount: data.total_count,
-                                totalPage: Math.ceil(data.total_count / pagesize),
+                                totalCount: data.data.total,
+                                totalPage: Math.ceil(data.data.total / pagesize),
                                 currentPage: page,
                                 limit: pagesize
                             });
@@ -334,6 +367,16 @@ export default function MasterRanklistController($scope, master, $$localStorage,
                 }
             }]
         });
+    }
+
+    function getExportSearch () {
+        return {
+            userType: $scope.info.userType.value,
+            userInfo: $scope.info.userInfo.value,
+            status: $scope.info.status.value,
+            balance: $scope.info.balance.value,
+            sumRate: $scope.info.sum_rate.value,
+        };
     }
 }
 MasterRanklistController.$inject = ['$scope', 'master', '$$localStorage', 'tableRedraw', '$modal', 'newModal'];

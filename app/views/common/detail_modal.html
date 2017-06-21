@@ -1,5 +1,643 @@
-<div>
+<div loading-wrapper data-type="loading"></div>
+<div class="system_modal">
     <span class="close" ng-click="closeModal()">
         <i class="icon iconfont">&#xe604;</i>
     </span>
+    <h5 class="system_modal__title">
+        客户详情：
+        <strong>{{ detail.user_name }}</strong>
+    </h5>
+    <div class="navbar-modal">
+        <ul class="nav-tabs clearfix">
+            <li ng-class="{'active': modalDetail === 'summary'}" ng-click="changeModalDetail('summary')">
+                <a href="">信息总览</a>
+            </li>
+            <li ng-class="{'active': modalDetail === 'current'}" ng-click="changeModalDetail('current')">
+                <a href="">当前持仓</a>
+            </li>
+            <li ng-class="{'active': modalDetail === 'history'}" ng-click="changeModalDetail('history')">
+                <a href="">交易历史</a>
+            </li>
+            <li ng-class="{'active': modalDetail === 'callback'}" ng-click="changeModalDetail('callback')">
+                <a href="">客户追踪</a>
+            </li>   
+            <li ng-class="{'active': modalDetail === 'copy'}" ng-click="changeModalDetail('copy')">
+                <a href="">他跟随</a>
+            </li>
+            <li ng-class="{'active': modalDetail === 'follow'}" ng-click="changeModalDetail('follow')">
+                <a href="">跟随者</a>
+            </li>
+            <li ng-class="{'active': modalDetail === 'redbag'}" ng-click="changeModalDetail('redbag')">
+                <a href="">红包</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="system_modal__content">
+        <div class="cont-wrapper">
+            <div ng-show="modalDetail === 'summary'">
+                <div class="panel">
+                    <div class="panel-header">
+                        基本信息
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-center">
+                            <tbody>
+                                <tr>
+                                    <td>用户 ID</td>
+                                    <td>
+                                        <strong>{{ detail.id }}</strong>
+                                    </td>
+                                    <td>手机号码</td>
+                                    <td style="max-width: 150px">
+                                        <strong>{{ detail.phone }}</strong>
+                                    </td>
+                                    <td>注册日期</td>
+                                    <td>
+                                        <strong>{{ detail.register_time }}</strong>
+                                    </td>
+                                    <td>是否入金</td>
+                                    <td>
+                                        <strong>{{ detail.isPay }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>昵称</td>
+                                    <td style="max-width: 150px">
+                                        <strong>{{ detail.user_name }}</strong>
+                                    </td>
+                                    <td>电子邮箱</td>
+                                    <td style="max-width: 150px">
+                                        <strong>{{ detail.email }}</strong>
+                                    </td>
+                                    <td>最后登陆日期</td>
+                                    <td>
+                                        <strong>{{ detail.lastLogin }}</strong>
+                                    </td>
+                                    <td>实名认证状态</td>
+                                    <td>
+                                        <strong ng-if="detail.profile_check">是</strong>
+                                        <strong ng-if="!detail.profile_check">否</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>真实姓名</td>
+                                    <td>
+                                        <strong>{{ detail.realname || '-' }}</strong>
+                                    </td>
+                                    <td>国家</td>
+                                    <td>
+                                        <strong>{{ detail.country || '-' }}</strong>
+                                    </td>
+                                    <td>是否高手</td>
+                                    <td>
+                                        <strong ng-if="detail.isMaster">是</strong>
+                                        <strong ng-if="!detail.isMaster">否</strong>
+                                    </td>
+                                    <td>是否代理商</td>
+                                    <td>
+                                        <strong ng-if="detail.is_ib">是</strong>
+                                        <strong ng-if="!detail.is_ib">否</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>性别</td>
+                                    <td>
+                                        <strong>{{ detail.sex }}</strong>
+                                    </td>
+                                    <td>城市</td>
+                                    <td>
+                                        <strong>{{ detail.city }}</strong>
+                                    </td>
+                                    <td>用户分类</td>
+                                    <td style="max-width: 150px">
+                                        <strong>{{ detail.classify }}</strong>
+                                    </td>
+                                    <td>分配销售</td>
+                                    <td>
+                                        <strong>{{ detail.userAffiliation }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>邀请人</td>
+                                    <td>
+                                        <strong>{{ detail.inviteUserId }}</strong>
+                                    </td>
+                                    <td>客户类型</td>
+                                    <td><strong>{{ detail.customerType || '无'}}</strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        投资概况
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-center">
+                            <tbody>
+                                <tr>
+                                    <td>MT4 ID</td>
+                                    <td>
+                                        <strong>{{ detail.mt4_real }}</strong>
+                                    </td>
+                                    <td>余额</td>
+                                    <td>
+                                        <strong ng-show="detailReal.show">
+                                            {{ detailReal.data.balance || '0' }}
+                                        </strong>
+                                        <i ng-show="!detailReal.show" class="icon iconfont icon_loading">&#xe603;</i>
+                                        
+                                    </td>
+                                    <td>信用赠金</td>
+                                    <td>
+                                        <strong ng-show="detailReal.show">
+                                            {{ detailReal.data.credit || '0' }}
+                                        </strong>
+                                        <i ng-show="!detailReal.show" class="icon iconfont icon_loading">&#xe603;</i>
+                                    </td>
+                                    <td>当前净值</td>
+                                    <td>
+                                        <strong ng-show="detailReal.show">
+                                            {{ detailReal.data.equity || '0' }}
+                                        </strong>
+                                        <i ng-show="!detailReal.show" class="icon iconfont icon_loading">&#xe603;</i>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>总入金量</td>
+                                    <td>
+                                        <strong>{{ detail.totalIn }}</strong>
+                                    </td>
+                                    <td>总出金量</td>
+                                    <td>
+                                        <strong>{{ detail.totalOut }}</strong>
+                                    </td>
+                                    <td>总订单数</td>
+                                    <td>
+                                        <strong>{{ detail.totalOrder }}</strong>
+                                    </td>
+                                    <td>总交易手数</td>
+                                    <td>
+                                        <strong>{{ detail.totalVolume }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>入金后总交易手数</td>
+                                    <td>
+                                        <strong>{{ detail.afterVolume }}</strong>
+                                    </td>
+                                    <td>上一月交易手数</td>
+                                    <td>
+                                        <strong>{{ detail.monthVolume }}</strong>
+                                    </td>
+                                    <td>转入总金额</td>
+                                    <td>
+                                        <strong>{{ detail.sumTransIn }}</strong>
+                                    </td>
+                                    <td>转出总金额</td>
+                                    <td>
+                                        <strong>{{ detail.sumTransOut }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>跟随总人数</td>
+                                    <td>
+                                        <strong>{{ detail.followNum || '0' }}</strong>
+                                    </td>
+                                    <td>跟随总资金</td>
+                                    <td>
+                                        <strong>{{ detail.followAmount || '0' }}</strong>
+                                    </td>
+                                    <td>当前跟随人数</td>
+                                    <td>
+                                        <strong>{{ detail.fllowNowNum || '0' }}</strong>
+                                    </td>
+                                    <td>当前跟随资金</td>
+                                    <td>
+                                        <strong>{{ detail.fllowNowAmount || '0' }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>他跟随总人数</td>
+                                    <td>
+                                        <strong>{{ detail.copyNum || '0' }}</strong>
+                                    </td>
+                                    <td>他跟随总资金</td>
+                                    <td>
+                                        <strong>{{ detail.copyAmount || '0' }}</strong>
+                                    </td>
+                                    <td>他当前跟随人数</td>
+                                    <td>
+                                        <strong>{{ detail.copyNowNum || '0' }}</strong>
+                                    </td>
+                                    <td>他当前跟随资金</td>
+                                    <td>
+                                        <strong>{{ detail.copyNowAmount || '0' }}</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-header">
+                        零钱包
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-center">
+                            <tbody>
+                                <tr>
+                                    <td>余额</td>
+                                    <td>
+                                        <strong>{{ detail.wallet_balance }}</strong>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="modalDetail === 'current'">
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>订单 ID</th>
+                                <th>类型</th>
+                                <th>交易品种</th>
+                                <th>自主/跟随</th>
+                                <th>手数</th>
+                                <th>开仓价格</th>
+                                <th>止损</th>
+                                <th>止盈</th>
+                                <th>开仓时间</th>
+                                <th>获利</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.current_detail && detail.current_detail.length > 0" ng-repeat="current in detail.current_detail">
+                                <td>{{ current.TICKET }}</td>
+                                <td>{{ current.CMD }}</td>
+                                <td>{{ current.SYMBOL }}</td>
+                                <td>{{ current.type }}</td>
+                                <td>{{ current.VOLUME }}</td>
+                                <td>{{ current.OPEN_PRICE }}</td>
+                                <td>{{ current.SL }}</td>
+                                <td>{{ current.TP }}</td>
+                                <td>{{ current.OPEN_TIME }}</td>
+                                <td>{{ current.PROFIT }}</td>
+                            </tr>
+                            <tr ng-if="detail.current_detail && detail.current_detail.length <= 0">
+                                <td colspan="11">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.current_detail">
+                                <td colspan="11">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div new-pagination pageconf="pageCurrent"></div>
+            </div>
+            <div ng-show="modalDetail === 'history'">
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>订单 ID</th>
+                                <th>类型</th>
+                                <th>交易品种</th>
+                                <th>自主/跟随</th>
+                                <th>手数</th>
+                                <th>开仓价格</th>
+                                <th>止损</th>
+                                <th>止盈</th>
+                                <th style="width: 100px">开仓时间</th>
+                                <th style="width: 100px">平仓时间</th>
+                                <th>平仓价格</th>
+                                <th>获利</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.history_detail && detail.history_detail.length > 0" ng-repeat="history in detail.history_detail">
+                                <td>{{ history.TICKET }}</td>
+                                <td>{{ history.CMD }}</td>
+                                <td>{{ history.SYMBOL }}</td>
+                                <td>{{ history.type }}</td>
+                                <td>{{ history.VOLUME }}</td>
+                                <td>{{ history.OPEN_PRICE }}</td>
+                                <td>{{ history.SL }}</td>
+                                <td>{{ history.TP }}</td>
+                                <td>{{ history.OPEN_TIME }}</td>
+                                <td>{{ history.CLOSE_TIME }}</td>
+                                <td>{{ history.CLOSE_PRICE }}</td>
+                                <td>{{ history.PROFIT }}</td>
+                            </tr>
+                            <tr ng-if="detail.history_detail && detail.history_detail.length <= 0">
+                                <td colspan="12">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.history_detail">
+                                <td colspan="12">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div new-pagination pageconf="pageHistory"></div>
+            </div>
+            <div ng-show="modalDetail === 'callback'">
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>操作人</th>
+                                <th>操作内容</th>
+                                <th>操作时间</th>
+                                <th>操作方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.callback_detail && detail.callback_detail.length > 0" ng-repeat="callback in detail.callback_detail">
+                                <td>{{ callback.operate_name }}</td>
+                                <td ng-if="callback.tel_type != 5" style="max-width: 400px">{{ callback.detail }}</td>
+                                <td ng-if="callback.tel_type == 5">把 {{ callback.customer_name }} 划转给了 {{ callback.assign_name }}</td>
+                                <td>{{ callback.time }}</td>
+                                <td ng-if="callback.tel_type == 0">电话</td>
+                                <td ng-if="callback.tel_type == 1">短信</td>
+                                <td ng-if="callback.tel_type == 2">Email</td>
+                                <td ng-if="callback.tel_type == 3">面谈</td>
+                                <td ng-if="callback.tel_type == 4">即时通讯</td>
+                                <td ng-if="callback.tel_type == 5">划转</td>
+                            </tr>
+                            <tr ng-if="detail.callback_detail && detail.callback_detail.length <= 0">
+                                <td colspan="4">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.callback_detail">
+                                <td colspan="4">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div new-pagination pageconf="pageCallback"></div>
+            </div>
+            <div ng-show="modalDetail === 'copy'">
+                <div class="system_modal__tip">当前投资</div>
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <colgroup>
+                            <col width="21.5%">
+                            <col width="23.5%">
+                            <col width="23.5%">
+                            <col width="23.5%">
+                            <col width="8%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>高手昵称</th>
+                                <th>跟随当前资金</th>
+                                <th>跟随初始资金</th>
+                                <th>跟随开始时间</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.curCopyMasters && detail.curCopyMasters.length > 0" 
+                                ng-repeat="copy in detail.curCopyMasters track by $index"
+                                class="collapse_box"
+                            >
+                                <td ng-if="copy.isParent">{{ copy.username }}</td>
+                                <td ng-if="copy.isParent">{{ copy.amount }}</td>
+                                <td ng-if="copy.isParent">{{ copy.start_amount }}</td>
+                                <td ng-if="copy.isParent">{{ copy.start_timestamp }}</td>
+                                <td ng-if="copy.isParent" class="trade_report__icon">
+                                    <i ng-if="!copy.collapsed" class="icon iconfont" ng-click="collapseTable(copy,'open',$index, 'current')">&#xe606;</i>
+                                    <i ng-if="copy.collapsed" class="icon iconfont" ng-click="collapseTable(copy,'close',$index, 'current')">&#xe608;</i>
+                                </td>
+                                <td ng-if="!copy.isParent" colspan="5">
+                                    <table class="table table-center table-border collapse">
+                                        <colgroup>
+                                            <col width="21.5%">
+                                            <col width="23.5%">
+                                            <col width="23.5%">
+                                            <col width="23.5%">
+                                            <col width="8%">
+                                        </colgroup>
+                                        <thead class="collapse">
+                                            <tr>
+                                                <th>操作</th>
+                                                <th>变动后</th>
+                                                <th>变动前</th>
+                                                <th>操作时间</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="history in copy.changeHistory">
+                                                <td>{{ history.action }}</td>
+                                                <td>{{ history.amount }}</td>
+                                                <td>{{ history.amountLast }}</td>
+                                                <td>{{ history.time }}</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr ng-if="detail.curCopyMasters && detail.curCopyMasters.length <= 0">
+                                <td colspan="8">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.curCopyMasters">
+                                <td colspan="8">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div new-pagination pageconf="pageCopyCurrent"></div>
+                <div class="system_modal__tip">历史投资</div>
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <colgroup>
+                            <col width="12.83%">
+                            <col width="15.83%">
+                            <col width="15.83%">
+                            <col width="15.83%">
+                            <col width="15.83%">
+                            <col width="15.83%">
+                            <col width="8%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>高手昵称</th>
+                                <th>跟随结束资金</th>
+                                <th>跟随初始资金</th>
+                                <th>跟随开始时间</th>
+                                <th>跟随结束时间</th>
+                                <th>收益率</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.hisCopyMasters && detail.hisCopyMasters.length > 0" ng-repeat="copy in detail.hisCopyMasters">
+                                <td ng-if="copy.isParent">{{ copy.username }}</td>
+                                <td ng-if="copy.isParent">{{ copy.amount }}</td>
+                                <td ng-if="copy.isParent">{{ copy.startAmount }}</td>
+                                <td ng-if="copy.isParent">{{ copy.startTimestamp }}</td>
+                                <td ng-if="copy.isParent">{{ copy.timestamp }}</td>
+                                <td ng-if="copy.isParent">{{ copy.profitRate }}%</td>
+                                <td ng-if="copy.isParent" class="trade_report__icon">
+                                    <i ng-if="!copy.collapsed" class="icon iconfont" ng-click="collapseTable(copy,'open',$index, 'history')">&#xe606;</i>
+                                    <i ng-if="copy.collapsed" class="icon iconfont" ng-click="collapseTable(copy,'close',$index, 'history')">&#xe608;</i>
+                                </td>
+                                <td ng-if="!copy.isParent" colspan="7">
+                                    <table class="table table-center table-border collapse">
+                                        <colgroup>
+                                            <col width="23%">
+                                            <col width="23%">
+                                            <col width="23%">
+                                            <col width="23%">
+                                            <col width="8%">
+                                        </colgroup>
+                                        <thead class="collapse">
+                                            <tr>
+                                                <th><strong>操作</strong></th>
+                                                <th><strong>变动后</strong></th>
+                                                <th><strong>变动前</strong></th>
+                                                <th><strong>操作时间</strong></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="history in copy.changeHistory">
+                                                <td>{{ history.action }}</td>
+                                                <td>{{ history.amount }}</td>
+                                                <td>{{ history.amount_last }}</td>
+                                                <td>{{ history.time }}</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr ng-if="detail.hisCopyMasters && detail.hisCopyMasters.length <= 0">
+                                <td colspan="10">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.hisCopyMasters">
+                                <td colspan="10">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div new-pagination pageconf="pageCopyHistory"></div>
+            </div>
+            <div ng-show="modalDetail === 'follow'">
+                <div class="system_modal__tip">当前跟随者</div>
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>昵称</th>
+                                <th>跟随当前资金</th>
+                                <th>跟随初始资金</th>
+                                <th>跟随开始时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.follow_current_detail && detail.follow_current_detail.length > 0" ng-repeat="current in detail.follow_current_detail">
+                                <td>{{ current.username }}</td>
+                                <td>{{ current.amount || '0' }}</td>
+                                <td>{{ current.startAmount || '0' }}</td>
+                                <td>{{ current.startTimestamp }}</td>
+                            </tr>
+                            <tr ng-if="detail.follow_current_detail && detail.follow_current_detail.length <= 0">
+                                <td colspan="11">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.follow_current_detail">
+                                <td colspan="11">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div new-pagination pageconf="pageFollowCurrent"></div>
+
+                <div class="system_modal__tip">历史跟随者</div>
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>昵称</th>
+                                <th>跟随结束资金</th>
+                                <th>跟随初始资金</th>
+                                <th>跟随开始时间</th>
+                                <th>跟随结束时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.follow_history_detail && detail.follow_history_detail.length > 0" ng-repeat="history in detail.follow_history_detail">
+                                <td>{{ history.username }}</td>
+                                <td>{{ history.amount || '0' }}</td>
+                                <td>{{ history.startAmount || '0' }}</td>
+                                <td>{{ history.startTimestamp }}</td>
+                                <td>{{ history.timestamp }}</td>
+                            </tr>
+                            <tr ng-if="detail.follow_history_detail && detail.follow_history_detail.length <= 0">
+                                <td colspan="11">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.follow_history_detail">
+                                <td colspan="11">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div new-pagination pageconf="pageFollowHistory"></div>
+            </div>
+            <div ng-show="modalDetail === 'redbag'">
+                <div class="table-modal-wrapper">
+                    <table class="table table-center table-hover">
+                        <thead>
+                            <tr>
+                                <th>红包名称</th>
+                                <th>运营名称</th>
+                                <th>红包金额</th>
+                                <th>领取时间</th>
+                                <th>兑换时间</th>
+                                <th>红包有效期</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="detail.redbag_detail && detail.redbag_detail.length > 0" ng-repeat="redbag in detail.redbag_detail">
+                                <td>{{ redbag.name }}</td>
+                                <td>{{ redbag.operation_name }}</td>
+                                <td>{{ redbag.amount }}</td>
+                                <td>{{ redbag.acquire_time }}</td>
+                                <td>{{ redbag.pay_time || '_ _'}}</td>
+                                <td>{{ redbag.valid_start + ' - ' + redbag.valid_end}}</td>
+                            </tr>
+                            <tr ng-if="detail.redbag_detail && detail.redbag_detail.length <= 0">
+                                <td colspan="11">无数据</td>
+                            </tr>
+                            <tr ng-if="! detail.redbag_detail">
+                                <td colspan="11">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div new-pagination pageconf="pageRedbag"></div>
+            </div>
+        </div>
+    </div>
 </div>

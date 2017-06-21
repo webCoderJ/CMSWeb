@@ -1,0 +1,27 @@
+<span class="selection_2 clearfix">
+    <input type="text"  
+           class="form-control list_select_input for_type" 
+           name="{{ bindInfo.typeName }}" 
+           type="text"
+           placeholder="{{ bindInfo.typePlaceholder }}"
+           autocomplete="off"
+           ng-model="bindModelTypeKey" 
+           ng-focus="showOptionsList()"
+           ng-keydown="preventDefault($event)"
+           ng-click="stopPropagation($event)">
+    <input class="form-control for_info"
+           name="{{ bindInfo.infoName }}"
+           type="text"
+           autocomplete="off"
+           placeholder="{{ bindInfo.infoPlaceholder }}"
+           text-enter
+           get-list="getList()"
+           ng-model="bindModelInfoValue">
+    <ul class="selection_2__menu" ng-class="{active: bindInfo.optionsShow && optionsList.length > 0}" style="max-height: 200px; overflow-y: scroll;">
+        <li ng-repeat="option in optionsList">
+            <a href="" ng-click="selectOption(option)">
+                {{ option[key] }}
+            </a>
+        </li>
+    </ul>
+</span>

@@ -91,7 +91,14 @@ export default function OperationRedbagController($scope, operation, $modal, new
     $scope.table = {};
     filedForDirective.createPageFiled($scope, 'PageRedbag', getRedbagList);
     $scope.info = { //查询条件
-        anyway: '',
+        userType: {
+            key: undefined,
+            value: undefined
+        },
+        userInfo: {
+            key: undefined,
+            value: undefined
+        },
         timePicker: {
             start: undefined,
             end: undefined
@@ -102,6 +109,20 @@ export default function OperationRedbagController($scope, operation, $modal, new
         }
     };
 
+    $scope.userType = [
+        {
+            key: '红包ID',
+            value: '0'
+        },
+        {
+            key: '红包名',
+            value: '1'
+        },
+        {
+            key: '运营名',
+            value: '2'
+        }
+    ];
     $scope.redbagStatusList = [
         {
             key: '全部',
@@ -144,7 +165,8 @@ export default function OperationRedbagController($scope, operation, $modal, new
         operation.getRedbagList({
             startDate: $scope['info']['timePicker']['start'] || null,
             endDate: $scope.info.timePicker.end || null,
-            anyway: $scope.info.anyway || null,
+            userType: $scope.info.userType.value,
+            userInfo: $scope.info.userInfo.value,
             status: $scope.info.redbagStatus.value || null,
             offset: offset,
             limit: pagesize
@@ -904,7 +926,7 @@ export default function OperationRedbagController($scope, operation, $modal, new
                                     $scope.hdType = passedScope.hdType
                                     $scope.res = res;
                                     $scope.is_succ = res.is_succ;
-                                    $scope.backErrMsg = res.err_msg || '';
+                                    $scope.backErrMsg = res.message || '';
                                     $scope.isSubmitting = false;
                                     getRedbagList();
                                 });

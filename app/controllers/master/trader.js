@@ -96,11 +96,38 @@ export default function MasterTraderController($scope, $timeout, master, $$local
         }
     ];
     var pagesize;
-
+    
+    $scope.export_url = '/api/customer/export';
     $scope.traderConf = {
         optionList: tableOptions
     };
     $scope.storageFrontKey = 'master_trader';
+    $scope.userType = [
+        {
+            key: 'mt4账号',
+            value: '1'
+        },
+        {
+            key: '用户昵称',
+            value: '2'
+        },
+        {
+            key: '真实姓名',
+            value: '3'
+        },
+        {
+            key: 'user_code',
+            value: '4'
+        },
+        {
+            key: '电话号码',
+            value: '5'
+        },
+        {
+            key: '电子邮箱',
+            value: '6'
+        },
+    ];
     $scope.tran_type = [
         {
             key: '全部',
@@ -117,6 +144,14 @@ export default function MasterTraderController($scope, $timeout, master, $$local
         }
     ];
     $scope.info = {
+        userType: {
+            key: undefined,
+            value: undefined
+        },
+        userInfo: {
+            key: undefined,
+            value: undefined
+        },
         tran_type: {
             key: undefined,
             value: undefined
@@ -155,13 +190,13 @@ export default function MasterTraderController($scope, $timeout, master, $$local
     $scope.tigerType = 1;  // 1-> 所有自主交易客户, 2-> 老虎外汇
     $scope.muguaType = 1; // 1-> 所有自主交易客户, 2-> 木瓜金融
     $scope.success = true;
-    var pagesize;
 
     $scope.getTraderList = getTraderList;
     $scope.chooseType = chooseType;
     $scope.openDetailMdl = openDetailMdl;
     $scope.openAddMasterMdl = openAddMasterMdl;
     $scope.openRankeHistory = openRankeHistory;
+    $scope.getExportSearch = getExportSearch;
 
     getTraderList();
 
@@ -178,7 +213,8 @@ export default function MasterTraderController($scope, $timeout, master, $$local
 
         master.getTraderList({
             tranType: $scope.info.tran_type.value,
-            anyway: $scope.info.anyway.value,
+            userType: $scope.info.userType.value,
+            userInfo: $scope.info.userInfo.value,
             balance: $scope.info.balance.value,
             sumRate: $scope.info.sum_rate.value,
             offset: offset,
@@ -251,7 +287,7 @@ export default function MasterTraderController($scope, $timeout, master, $$local
             },
             controller: ['$scope', 'passedScope', function ($scope, passedScope) {
 
-                var id = trader.mt4_id;
+                var id = trader.mt4_real;
                 
                 $scope.username = trader.user_name;
                 $scope.status = status == 1 ? '前台' : '隐藏';
@@ -326,11 +362,11 @@ export default function MasterTraderController($scope, $timeout, master, $$local
                         $scope.$emit('hideLoadingWrapper');
 
                         if (data.is_succ) {
-                            $scope.rankHistory = data.data;
+                            $scope.rankHistory = data.data.data;
 
                             angular.extend($scope.pageRankHistory, {
-                                totalCount: data.total_count,
-                                totalPage: Math.ceil(data.total_count / pagesize),
+                                totalCount: data.data.total,
+                                totalPage: Math.ceil(data.data.total / pagesize),
                                 currentPage: page,
                                 limit: pagesize
                             });
@@ -339,6 +375,20 @@ export default function MasterTraderController($scope, $timeout, master, $$local
                 }
             }]
         });
+    }
+
+    function getExportSearch () {
+        return {
+            tranType: $scope.info.tran_type.value,
+            userType: $scope.info.userType.value,
+            userInfo: $scope.info.userInfo.value,
+            balance: $scope.info.balance.value,
+            sumRate: $scope.info.sum_rate.value,
+            type: $scope.traderType,
+            deposit: $scope.depositType,
+            isTiger: $scope.tigerType,
+            isMugua: $scope.muguaType
+        };
     }
 }
 MasterTraderController.$inject = ['$scope', '$timeout', 'master', '$$localStorage', 'tableRedraw', '$modal', 'newModal'];

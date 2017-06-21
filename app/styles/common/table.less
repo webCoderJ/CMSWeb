@@ -5,7 +5,6 @@
         padding: 12px 8px;
         border-bottom: 1px solid #efefef;
         word-break: break-all;
-        min-width: 100px;
         
         > .username {
             color: #337ab7;
@@ -14,8 +13,14 @@
 
     > thead > tr > th {
         background-color: #f2f2f4;
-        min-width: 100px;
+        
         padding: 16px 8px;
+    }
+    &.table-header thead tr th {
+        min-width: 100px;
+    }
+    &.table-body tbody tr td {
+        min-width: 100px;
     }
 }
 

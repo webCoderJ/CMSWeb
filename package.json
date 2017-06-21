@@ -15,7 +15,7 @@
     "angular-file-upload": "^2.3.4",
     "angular-file-upload-shim": "^1.6.4",
     "angular-messages": "^1.5.0",
-    "angular-ui-router": "^0.4.2",
+    "angular-ui-router": "^0.2.18",
     "autoprefixer": "^6.3.3",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.2.4",

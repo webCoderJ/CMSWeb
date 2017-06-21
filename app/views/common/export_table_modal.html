@@ -1,0 +1,31 @@
+<div class="system_modal">
+    <span class="close" ng-click="close()">
+        <i class="icon iconfont">&#xe604;</i>
+    </span>
+
+    <h5 class="system_modal__title">
+        导出报表
+    </h5>
+
+    <div class="system_modal__content align">
+        <div class="payment_modal__tip">
+            目前默认导出1000条数据，请填写您希望从第几条数据开始导出：
+            <div class="modal__form_wrapper pd-tp-15">
+                <div class="form-control-wrapper">
+                
+                    <input class="form-control"
+                           type="number"
+                           ng-model="info.offset">
+                </div>
+            </div>
+        </div>
+        <div class="btn-wrapper">
+            <button class="btn btn-primary" ng-click="exportTableData()">
+                确认
+            </button>
+            <button class="btn btn-gray" ng-click="close()">
+                取消
+            </button>
+        </div>
+    </div>
+</div>

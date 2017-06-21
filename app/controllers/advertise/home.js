@@ -1,5 +1,5 @@
 import $ from 'jquery';
-export default function AdvertiseHomeController($scope, advertise) {
+export default function AdvertiseHomeController($scope, advertise, layer) {
 
     $scope.focusType = 0;
     $scope.focusList = [];
@@ -100,12 +100,22 @@ export default function AdvertiseHomeController($scope, advertise) {
                 getAdvertiseList(1);
                 getAdvertiseList(0);
             } else {
-                alert(data.message);
+                layer({
+                    type: 'msg',
+                    message: data.message
+                });
             }
         });
     }
 
     function addAdvertise (type) {
+        if (!$scope.info[type].imgUrl) {
+            layer({
+                type: 'msg',
+                message: '请先上传图片'
+            });
+            return;
+        }
         $scope.$emit('showLoadingWrapper');
         // console.log($scope.alertList);
         advertise.addAdvertise({
@@ -116,32 +126,64 @@ export default function AdvertiseHomeController($scope, advertise) {
             endTime: $scope.info[type].timeEnd.start,
             imgUrl: $scope.info[type].imgUrl,
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             $scope.$emit('hideLoadingWrapper');
             if (data.is_succ) {
                 type === 'focus' ? getAdvertiseList(1) : getAdvertiseList(0);
                 clearAdAddStatus(type);
             } else {
-                alert(data.message);
+                layer({
+                    type: 'msg',
+                    message: data.message
+                });
             }
         });
     }
 
     function deleteAdvertise (item) {
         // console.log(item);
-        var r = confirm('确认删除吗？');
+        // var r = confirm('确认删除吗？');
 
-        if (r) {
-            advertise.deleteAdvertise(item.id).then(function (data) {
-                // console.log(data);
-                if (data.is_succ) {
-                    getAdvertiseList(1);
-                    getAdvertiseList(0);
-                } else {
-                    alert(data.message);
-                }
-            });
-        }
+        // if (r) {
+        //     advertise.deleteAdvertise(item.id).then(function (data) {
+        //         // console.log(data);
+        //         if (data.is_succ) {
+        //             getAdvertiseList(1);
+        //             getAdvertiseList(0);
+        //         } else {
+        //             alert(data.message);
+        //         }
+        //     });
+        // }
+
+        layer({
+            type: 'confirm',
+            message: '确认删除吗？',
+            title: '确认信息',
+            btnArr: ['确认', '取消'],
+            func1: function () {
+                advertise.deleteAdvertise(item.id).then(function (data) {
+                    layer({
+                        type: 'close'
+                    });
+                    // console.log(data);
+                    if (data.is_succ) {
+                        getAdvertiseList(1);
+                        getAdvertiseList(0);
+                    } else {
+                        layer({
+                            type: 'msg',
+                            message: data.message
+                        });
+                    }
+                });
+            },
+            func2: function () {
+                layer({
+                    type: 'close'
+                });
+            }
+        });
     }
 
     function clearAdEditStatus () {
@@ -228,4 +270,4 @@ export default function AdvertiseHomeController($scope, advertise) {
         previewFile($(this), iName);
     });
 }
-AdvertiseHomeController.$inject = ['$scope', 'advertise'];
+AdvertiseHomeController.$inject = ['$scope', 'advertise', 'layer'];

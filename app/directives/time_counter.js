@@ -55,6 +55,7 @@ export default ($timeout, $interval) => {
                     var $timer;
                     function runCounter() {
                         if (modelVal <= 0) { return }
+                        $interval.cancel($timer);
                         $timer = $interval(function () {
                             modelVal -= 1;
                             renderToView(modelVal)
@@ -63,6 +64,11 @@ export default ($timeout, $interval) => {
                     // 开启倒计时
                     runCounter();
                     // 监听更新，清理倒计时
+                    scope.$on('$stateChangeStart', function () {
+                        if ($timer) {
+                            $interval.cancel($timer);
+                        }
+                    });
                     scope.$on(eventName, function (event) {
                         if ($timer) {
                             var hasCanceled = $interval.cancel($timer);

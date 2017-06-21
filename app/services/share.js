@@ -20,7 +20,7 @@ export default class Share {
                 params: $params
             }).then(function (data) {
                 // console.log(data);
-                if (data.data.err_code === 10000) {
+                if (data.data.code === 10000) {
 
                     window.location.href = '/#/login/index';
                 } else {
@@ -35,7 +35,7 @@ export default class Share {
             // console.log($params);
             return self.$http.post($url, $params).then(function (data) {
                 // console.log(data);
-                if (data.data.err_code === 10000) {
+                if (data.data.code === 10000) {
                     window.location.href = '/#/login/index';
                 } else {
                     return data.data;
@@ -49,7 +49,7 @@ export default class Share {
             // console.log($params);
             return self.$http.put($url, $params).then(function (data) {
                 // console.log(data);
-                if (data.data.err_code === 10000) {
+                if (data.data.code === 10000) {
                     window.location.href = '/#/login/index';
                 } else {
                     return data.data;
@@ -65,7 +65,7 @@ export default class Share {
                 params: $params
             }).then(function (data) {
                 // console.log(data);
-                if (data.data.err_code === 10000) {
+                if (data.data.code === 10000) {
                     window.location.href = '/#/login/index';
                 } else {
                     return data.data;

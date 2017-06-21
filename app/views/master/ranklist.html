@@ -2,16 +2,11 @@
 <div class="cms_container">
     <div class="btn-container">
         <div class="btn-wrapper">
-            <div class="form-control-wrapper width200">
-                <input class="form-control"
-                       name="anyway"
-                       type="text"
-                       placeholder="昵称/姓名/邮箱/电话"
-                       text-enter
-                       get-list="getRankList()"
-                       ng-model="info.anyway.value">
-            </div>
+
+            <div list-select-new options-list="userType" bind-type-name="userType" bind-info-name="userInfo" data-type-placeholder="用户类型" data-info-placeholder="用户相关信息" bind-model-type-value="info.userType.value" bind-model-type-key="info.userType.key" bind-model-info-value="info.userInfo.value" bind-option-key="key" bind-option-value="value" get-list="getRankList()"></div>
+
             <div list-select options-list="status" bind-name="status" data-placeholder="榜单类型" bind-model-value="info.status.value" bind-model-key="info.status.key" bind-option-key="key" bind-option-value="value"></div>
+            
             <label class="form-label">余额大于$</label>
             <div class="form-control-wrapper">
                 
@@ -44,6 +39,8 @@
                 <i class="icon iconfont">&#xe603;</i>
                 查询
             </button>
+
+            <div table-ex-by-url ex-url="export_url" get-ex-search="getExportSearch()"></div>
 
             <div table-select table="table" table-conf="ranklistConf" table-front-key="storageFrontKey"></div>
         </div>
@@ -126,7 +123,7 @@
         <div class="table-body-wrapper" ng-style="{'paddingTop': tableHeaderHeight}">
             <table class="table table-center table-hover table-body">
                 <tbody>
-                    <tr ng-repeat="rank in ranklist">
+                    <tr tr-animate ng-repeat="rank in ranklist">
                         <td ng-if="table.username">
                             <a href="" class="username" ng-click="openDetailMdl(rank)">
                                 {{ rank.username || '-' }}

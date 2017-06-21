@@ -1,76 +1,67 @@
-export default ($window) => {
+export default ($window, $timeout, newModal) => {
     return {
         restrict: 'EA',
         scope: {
             exUrl: '=',
-            exSearch: '='
+            getExSearch: '&'
         },
         replace: true,
+        template: '<button class="btn btn-primary" ng-click="exportTable()">'+
+                       '<i class="icon iconfont">&#xe605;</i>'+
+                       '导出'+
+                  '</button>',
         link: function (scope, element, attrs) {
-            let processTime = (time) => {
-                var create_time;
-                if ((time["start"] === undefined || time["start"] === '') && (time["end"] === undefined || time["end"] === '')) {
-                    create_time = '';
-                } else if (time["start"] === undefined || time["start"] === '') {
-                    create_time = '' + ',' + time["end"];
-                } else if (time["end"] === undefined || time["end"] === '') {
-                    create_time = time["start"];
-                } else {
-                    create_time = time["start"] + ',' + time["end"];
-                }
-                return create_time;
+
+            scope.exportTable = exportTable;
+            
+            function exportTable() {
+                var exSearch = scope.getExSearch();
+                // console.log(exSearch);
+                newModal.open({
+                    templateUrl: require(
+                        'file?name=views/common/[name].[hash].[ext]!../views/common/export_table_modal.html'
+                    ),
+                    resolve: {
+                        passedScope: function () {
+                            return {
+                                exUrl: scope.exUrl
+                            };
+                        }
+                    },
+                    controller: ['$scope', 'passedScope', function ($scope, passedScope) {
+
+                        $scope.info = {
+                            offset: undefined
+                        };
+                        $scope.exportTableData = exportTableData;
+
+                        function exportTableData () {
+                            var exportSearchArr = dealSearchData(exSearch);
+                            var exportSearchStr = '';
+                            if ($scope.info.offset && $scope.info.offset > 0) {
+                                exportSearchArr.push('offset='+($scope.info.offset-1));
+                            }
+                            if (exportSearchArr.length) {
+                                exportSearchStr = '?'+exportSearchArr.join('&');
+                            }
+                            console.log(exportSearchArr, exportSearchStr);
+                            // $window.open($window.location.origin + passedScope.exUrl);
+                            $window.open('https://cmsdev.tigerwit.com' + passedScope.exUrl + exportSearchStr);
+                            $scope.close();
+                        }
+                    }]
+                });
             }
 
-            let exHandle = () => {
-                var dataStr = '?';
-                var dataArrray = [];
-                angular.forEach(scope.exSearch, function (value, index) {
-                    console.log(index);
-                    switch (index) {
-                        case 'relation':
-                            if (value.value !== undefined) {
-                                dataArrray.push('user_affiliation=' + value.value);
-                            }
-                            break;
-                        case 'status':
-                            if (value.value !== undefined) {
-                                dataArrray.push('status=' + value.value);
-                            }
-                            break;
-                        case 'classify':
-                            if (value.value !== undefined) {
-                                dataArrray.push('classify=' + value.value);
-                            }
-                            break;
-                        case 'anyway':
-                            if (value.value !== undefined && value.value !== '') {
-                                dataArrray.push('anyway=' + value.value);
-                            }
-                            break;
-                        case 'time':
-                            var register_time;
-                            register_time = processTime(value);
-                            if (register_time !== '') {
-                                dataArrray.push('register_time=' + register_time);
-                            }
-                            break;
-                        case 'month':
-                            if (value != undefined) {
-                                dataArrray.push('month=' + value);
-                            }
-                            break;
-                        default:
-                            break;
+            function dealSearchData (search) {
+                var exArr = [];
+                angular.forEach(search, function (value, index) {
+                    if (value) {
+                        exArr.push(index+'='+value);
                     }
                 });
-
-                dataStr += dataArrray.join('&');
-
-                // console.info($window.location.origin + scope.exUrl + dataStr);
-                $window.open($window.location.origin + scope.exUrl + dataStr);
+                return exArr;
             }
-
-            element.on('click', exHandle);
         }
     };
 }

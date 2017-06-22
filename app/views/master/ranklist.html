@@ -7,7 +7,7 @@
 
             <div list-select options-list="status" bind-name="status" data-placeholder="榜单类型" bind-model-value="info.status.value" bind-model-key="info.status.key" bind-option-key="key" bind-option-value="value"></div>
             
-            <label class="form-label">余额大于$</label>
+            <label class="form-label">余额小于$</label>
             <div class="form-control-wrapper">
                 
                 <input class="form-control"
@@ -17,7 +17,7 @@
                        get-list="getRankList()"
                        ng-model="info.balance.value">
             </div>
-            <label class="form-label">收益率大于</label>
+            <label class="form-label">收益率小于</label>
             <div class="form-control-wrapper">
                 
                 <input class="form-control"

@@ -22,7 +22,7 @@ export default class Advertise {
      */
     getAdvertiseList(type) {
         return this.share.publicRequest(this.settings.urls.advertiseList, 'GET', {
-            type: type
+            identifier: type
         });
     }
 

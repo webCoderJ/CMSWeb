@@ -9,6 +9,7 @@ import MasterBonusController from './master/bonus';
 import MasterCopierController from './master/copier';
 import OperationRedbagController from './operation/redbag';
 import AdvertiseHomeController from './advertise/home';
+import AdvertiseAdsettingController from './advertise/adsetting';
 
 
 //controller 主文件入口
@@ -23,3 +24,4 @@ export default angular.module('app.controller', [])
     .controller('MasterCopierController', MasterCopierController)
     .controller('OperationRedbagController', OperationRedbagController)
     .controller('AdvertiseHomeController', AdvertiseHomeController)
+    .controller('AdvertiseAdsettingController', AdvertiseAdsettingController)

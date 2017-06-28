@@ -6,18 +6,14 @@
             <div class="tab_wrapper">
                 <div class="clearfix">
                     <ul class="tab_nav_lst">
-                        <li ng-click="chooseType(0)" ng-class="{active: focusType === 0}" class="tab_nav_btn">图1</li>
-                        <li ng-click="chooseType(1)" ng-class="{active: focusType === 1}" class="tab_nav_btn">图2</li>
-                        <li ng-click="chooseType(2)" ng-class="{active: focusType === 2}" class="tab_nav_btn">图3</li>
-                        <li ng-click="chooseType(3)" ng-class="{active: focusType === 3}" class="tab_nav_btn">图4</li>
-                        <li ng-click="chooseType(4)" ng-class="{active: focusType === 4}" class="tab_nav_btn">图5</li>
+                        <li ng-click="chooseType($index)" ng-repeat="tab in focusList" ng-class="{active: focusType === $index}" class="tab_nav_btn">图{{ $index+1 }}</li>
                     </ul>
                     <div class="tab_tip">
                         图片规格: 1920*650
                         <span class="doc">
                             <i class="icon iconfont">&#xe615;</i>
                             <span class="alert-arrow alert-right">
-                                图片尺寸1920*650，内容尺寸 1030*(650-84)，84为下面元素定位挡到的高度
+                                图片尺寸1920*650，内容尺寸 1030*(650-84-70)，84为下面元素定位挡到的高度,70为导航条高度
                             </span>
                         </span>
                     </div>
@@ -26,8 +22,8 @@
                     <div class="table-tab-wrapper">
                         <table class="table table-center">
                             <colgroup>
-                                <col width="5%">
-                                <col width="15%">
+                                <col width="7%">
+                                <col width="13%">
                                 <!-- <col width="14%"> -->
                                 <col width="16%">
                                 <col width="16%">
@@ -58,12 +54,26 @@
                                     </td>
                                     <!-- <td>{{ focus.back_img_url || '-' }}</td> -->
                                     <td>
-                                        <span ng-if="!focus.isEdit">{{ focus.image_url || '-' }}</span>
+                                        <span ng-if="!focus.isEdit">
+                                            <img class="advertise_thumbnail_img" ng-src="{{focus.image_url}}">
+                                            <!-- {{ focus.image_url || '-' }} -->
+                                        </span>
                                         <span ng-if="focus.isEdit">
-                                            <label class="advertise_file_upload">
+                                            <label class="advertise_file_upload" ng-show="!editInfo.uploadSucc">
                                                 <input type="file" name="" accept="image/jpeg,image/png">
-                                                <span>上传</span>
+                                                <span>
+                                                    上传
+                                                    <span class="img_tip">
+                                                        <i class="icon iconfont">&#xe615;</i>
+                                                        <span class="alert-arrow alert-left">
+                                                           若不重新上传则沿用上一张图片 
+                                                        </span>
+                                                    </span>
+                                                </span>
                                             </label>
+                                            <span ng-show="editInfo.uploadSucc">
+                                                上传完成
+                                            </span>
                                         </span>
                                     </td>
                                     <td>
@@ -161,8 +171,8 @@
             <div class="table-tab-wrapper">
                 <table class="table table-center">
                     <colgroup>
-                        <col width="5%">
-                        <col width="15%">
+                        <col width="7%">
+                        <col width="13%">
                         <!-- <col width="14%"> -->
                         <col width="16%">
                         <col width="16%">
@@ -193,12 +203,26 @@
                             </td>
                             <!-- <td>{{ alert.back_img_url || '-' }}</td> -->
                             <td>
-                                <span ng-show="!alert.isEdit">{{ alert.image_url || '-' }}</span>
+                                <span ng-show="!alert.isEdit">
+                                    <img class="advertise_thumbnail_img" ng-src="{{alert.image_url}}">
+                                    <!-- {{ alert.image_url || '-' }} -->
+                                </span>
                                 <span ng-show="alert.isEdit">
-                                    <label class="advertise_file_upload">
+                                    <label class="advertise_file_upload" ng-show="!editInfo.uploadSucc">
                                         <input type="file" name="" accept="image/jpeg,image/png">
-                                        <span>上传</span>
+                                        <span>
+                                            上传
+                                            <span class="img_tip">
+                                                <i class="icon iconfont">&#xe615;</i>
+                                                <span class="alert-arrow alert-left">
+                                                   若不重新上传则沿用上一张图片 
+                                                </span>
+                                            </span>
+                                        </span>
                                     </label>
+                                    <span ng-show="editInfo.uploadSucc">
+                                        上传完成
+                                    </span>
                                 </span>
                             </td>
                             <td>

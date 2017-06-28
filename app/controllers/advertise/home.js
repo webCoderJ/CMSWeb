@@ -36,7 +36,8 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
         },
         timeEnd: {
             start: undefined
-        }
+        },
+        uploadSucc: false   // 是否重新上传图片
     };
     $scope.chooseType = chooseType;
     $scope.editAd = editAd;
@@ -45,17 +46,17 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
     $scope.addAdvertise = addAdvertise;
     $scope.deleteAdvertise = deleteAdvertise;
 
-    getAdvertiseList(1);
-    getAdvertiseList(0);
+    getAdvertiseList('wheel');
+    getAdvertiseList('popup');
 
     function getAdvertiseList (type) {
         advertise.getAdvertiseList(type).then(function (data) {
             // console.log(data);
             if (data.is_succ) {
-                if (type === 1) {
+                if (type === 'wheel') {
                     $scope.focusList = data.data;
                 }
-                if (type === 0) {
+                if (type === 'popup') {
                     $scope.alertList = data.data[0];
                     
                 }
@@ -79,7 +80,8 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
             },
             timeEnd: {
                 start: item.end_time
-            }
+            },
+            uploadSucc: false
         };
     }
 
@@ -97,8 +99,8 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
             $scope.$emit('hideLoadingWrapper');
             // console.log(data);
             if (data.is_succ) {
-                getAdvertiseList(1);
-                getAdvertiseList(0);
+                getAdvertiseList('wheel');
+                getAdvertiseList('popup');
             } else {
                 layer({
                     type: 'msg',
@@ -129,7 +131,7 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
             // console.log(data);
             $scope.$emit('hideLoadingWrapper');
             if (data.is_succ) {
-                type === 'focus' ? getAdvertiseList(1) : getAdvertiseList(0);
+                type === 'focus' ? getAdvertiseList('wheel') : getAdvertiseList('popup');
                 clearAdAddStatus(type);
             } else {
                 layer({
@@ -141,20 +143,6 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
     }
 
     function deleteAdvertise (item) {
-        // console.log(item);
-        // var r = confirm('确认删除吗？');
-
-        // if (r) {
-        //     advertise.deleteAdvertise(item.id).then(function (data) {
-        //         // console.log(data);
-        //         if (data.is_succ) {
-        //             getAdvertiseList(1);
-        //             getAdvertiseList(0);
-        //         } else {
-        //             alert(data.message);
-        //         }
-        //     });
-        // }
 
         layer({
             type: 'confirm',
@@ -168,8 +156,8 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
                     });
                     // console.log(data);
                     if (data.is_succ) {
-                        getAdvertiseList(1);
-                        getAdvertiseList(0);
+                        getAdvertiseList('wheel');
+                        getAdvertiseList('popup');
                     } else {
                         layer({
                             type: 'msg',
@@ -206,22 +194,15 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
             timeEnd: {
                 start: undefined,
                 end: undefined
-            }
+            },
+            uploadSucc: false
         };
     }
 
     function clearAdAddStatus(type) {
-        $scope.info[type] = {
-            name: undefined,
-            targetUrl: undefined,
-            imgUrl: undefined,
-            timeStart: {
-                start: undefined
-            },
-            timeEnd: {
-                start: undefined
-            }
-        }
+        $scope.info[type].name = undefined;
+        $scope.info[type].targetUrl = undefined;
+        $scope.info[type].imgUrl = undefined;
     }
 
     // function previewBase64(file) {
@@ -254,6 +235,7 @@ export default function AdvertiseHomeController($scope, advertise, layer) {
                             $scope.info[iName].imgUrl = data.data.filePath;
                         } else {
                             $scope.editInfo.imgUrl = data.data.filePath;
+                            $scope.editInfo.uploadSucc = true;
                         }
                     });
                 }

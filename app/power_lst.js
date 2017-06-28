@@ -13,5 +13,6 @@ export default function () {
         "29" : "copier",            /*高手管理 复制者分成*/
         "76" : "redbag",            /*运营 红包*/
         "95" : "home",              /*广告管理 首页*/
+        "96" : "adsetting",         /*广告管理 广告位设置*/
     };
 }

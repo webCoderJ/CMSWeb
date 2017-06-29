@@ -1,7 +1,187 @@
 <div class="cms_container">
     <div class="advertise">
         <div class="advertise_wrapper">
-            
+            <div class="table-tab-wrapper">
+                <table class="table table-center">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>条目id</th>
+                            <th>条目名称</th>
+                            <th>条目的区分标识</th>
+                            <th>条目描述</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ad in advertiseLst">
+                            <td ng-if="ad.isParent" class="advertise_setting_icon">
+                                <i ng-show="!ad.isOpen" class="icon iconfont" ng-click="changeTagLstSt(ad, $index)">&#xe606;</i>
+                                <i ng-show="ad.isOpen" class="icon iconfont" ng-click="changeTagLstSt(ad, $index)">&#xe608;</i>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    {{ ad.id }}
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    -
+                                </span>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    {{ ad.name }}
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    <input type="text" name="name" class="form-control" placeholder="条目名称" ng-model="editAdInfo.name">
+                                </span>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    {{ ad.identifier }}
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    <input type="text" name="name" class="form-control" placeholder="条目的区分标识" ng-model="editAdInfo.identifier">
+                                </span>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    {{ ad.desc }}
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    <input type="text" name="name" class="form-control" placeholder="条目描述" ng-model="editAdInfo.desc">
+                                </span>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    <span ng-show="ad.status === 1">
+                                        正常
+                                    </span>
+                                    <span ng-show="ad.status === 0">
+                                        删除
+                                    </span>
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    -
+                                </span>
+                            </td>
+                            <td ng-if="ad.isParent">
+                                <span ng-show="!ad.isEdit">
+                                    <span ng-if="ad.status === 1">
+                                        <button class="btn btn-primary" ng-click="updateSettingEle(ad)">修改</button>
+                                        <button class="btn btn-primary" ng-click="deleteSettingEle(ad)">删除</button>
+                                    </span>
+                                </span>
+                                <span ng-show="ad.isEdit">
+                                    <button class="btn btn-default" ng-click="submitUpdateSettingEle(ad)">确定</button>
+                                    <button class="btn btn-gray" ng-click="cancelEditInfo()">取消</button>
+                                </span>
+                                
+                            </td>
+                            <td ng-if="!ad.isParent" colspan="7">
+                                <table class="table table-center table-children">
+                                    <colgroup>
+                                        <col width="10%">
+                                        <col width="30%">
+                                        <col width="20%">
+                                        <col width="40%">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>标签id</th>
+                                            <th>标签描述</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="tag in ad.tagList">
+                                            <td>
+                                                <span ng-show="!tag.isEdit">
+                                                    {{ tag.id }}
+                                                </span>
+                                                <span ng-show="tag.isEdit">
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="!tag.isEdit">
+                                                    {{ tag.desc }}
+                                                </span>
+                                                <span ng-show="tag.isEdit">
+                                                    <input type="text" name="desc" class="form-control" placeholder="标签描述" ng-model="editTagInfo.desc">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="!tag.isEdit">
+                                                    <span ng-show="tag.status === 1">
+                                                        正常
+                                                    </span>
+                                                    <span ng-show="tag.status === 0">
+                                                        删除
+                                                    </span>
+                                                </span>
+                                                <span ng-show="tag.isEdit">
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="!tag.isEdit">
+                                                    <span ng-if="tag.status === 1">
+                                                        <button class="btn btn-primary" ng-click="updateSettingTag(tag)">修改</button>
+                                                        <button class="btn btn-primary" ng-click="deleteSettingTag(tag, ad)">删除</button>
+                                                    </span>
+                                                </span>
+                                                <span ng-show="tag.isEdit">
+                                                    <button class="btn btn-default" ng-click="submitUpdateSettingTag(tag, ad)">确定</button>
+                                                    <button class="btn btn-gray" ng-click="cancelEditInfo()">取消</button>
+                                                </span>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>-</td>
+                                            <td>
+                                                <input type="text" name="desc" class="form-control" placeholder="标签描述" ng-model="ad.addTagInfo">
+                                            </td>
+                                            <td>-</td>
+                                            <td>
+                                                <button class="btn btn-primary" ng-click="addSettingTag(ad, $index)">新增</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>
+                                <input type="text" name="name" class="form-control" placeholder="条目名称" ng-model="addAdInfo.name">
+                            </td>
+                            <td>
+                                <input type="text" name="identifier" class="form-control" placeholder="条目的区分标识" ng-model="addAdInfo.identifier">
+                            </td>
+                            <td>
+                                <input type="text" name="desc" class="form-control" placeholder="条目描述" ng-model="addAdInfo.desc">
+                            </td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-primary" ng-click="addSettingEle()">新增</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

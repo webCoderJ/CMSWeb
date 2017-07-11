@@ -19,6 +19,7 @@ import O_POWER from './power_lst';
 
 
 let O_POWER_INDEX = O_POWER();
+let oFirst;
 //app
 angular
     .module('app', ['app.filter', 'app.directive', 'app.controller', 'app.service', 'ui.router', 'ngCookies', 'angularFileUpload'])
@@ -46,14 +47,20 @@ angular
                         //已登录但没有任何权限
                         $state.go('404');
                     }else{
-                        let oFirst = aPowerMenu[0];
-                        if(oFirst.children){
-                            //page+ subpage
-                            $state.go(O_POWER_INDEX[oFirst.value] + '.subpage', {subpage : O_POWER_INDEX[oFirst.children[0].value]});               
-                        }else{
-                            //page
-                            $state.go(O_POWER_INDEX[oFirst.value]);
+                        // let oFirst = aPowerMenu[0];
+                        getStatePage(aPowerMenu);
+                        if (oFirst) {
+                            if(oFirst.children){
+                                //page+ subpage
+                                $state.go(O_POWER_INDEX[oFirst.value] + '.subpage', {subpage : O_POWER_INDEX[oFirst.children[0].value]});               
+                            }else{
+                                //page
+                                $state.go(O_POWER_INDEX[oFirst.value]);
+                            }
+                        } else {
+                            $state.go('404');
                         }
+                        
                     }
                 }else{
                     //非根目录需要判断用户是否拥有该路径的访问权限。
@@ -142,6 +149,19 @@ angular
                     }
                 });
                 return oResult;
+            }
+            function getStatePage (menu, i) {
+                i = i || 0;
+                oFirst = menu[i];
+                if (i > menu.length-1) {
+                    oFirst = false;
+                }
+                if (O_POWER_INDEX[oFirst.value]) {
+                    
+                } else {
+                    i++;
+                    getStatePage(menu, i);
+                }
             }
         });
     }]);

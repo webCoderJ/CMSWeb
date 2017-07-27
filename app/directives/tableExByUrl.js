@@ -7,7 +7,7 @@ export default ($window, $timeout, newModal) => {
         },
         replace: true,
         template: '<button class="btn btn-primary" ng-click="exportTable()">'+
-                       '<i class="icon iconfont">&#xe605;</i>'+
+                       '<i class="icon iconfont">&#xe600;</i>'+
                        '导出'+
                   '</button>',
         link: function (scope, element, attrs) {

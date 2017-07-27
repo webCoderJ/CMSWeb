@@ -95,6 +95,15 @@
                             总收益率
                         </th> -->
                         <th table-sort ng-if="table.lastTotalProfitRate" data-bind-text="总收益率" data-bind-sort="lastTotalProfitRate" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        
+                        <th table-sort ng-if="table.thirtyProfitRate" data-bind-text="近30天收益率" data-bind-sort="thirtyProfitRate" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <th table-sort ng-if="table.thirtyWinRate" data-bind-text="近30天胜率" data-bind-sort="thirtyWinRate" data-table-sort-info="tableSortInfo" data-get-list="getTraderList()"></th>
+                        <!-- <th ng-if="table.thirtyProfitRate">
+                            近30天收益率
+                        </th>
+                        <th ng-if="table.thirtyWinRate">
+                            近30天胜率
+                        </th> -->
                         <!-- <th ng-if="table.lastProfitRate">
                             上一交易日收益率
                         </th> -->
@@ -189,6 +198,12 @@
                         </td>
                         <td ng-if="table.lastTotalProfitRate">
                             {{ trader.lastTotalProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyProfitRate">
+                            {{ trader.thirtyProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyWinRate">
+                            {{ trader.thirtyWinRate || '0' }}%
                         </td>
                         <td ng-if="table.lastProfitRate">
                             {{ trader.lastProfitRate || '0' }}%

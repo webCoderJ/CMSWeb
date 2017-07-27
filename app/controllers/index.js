@@ -7,6 +7,7 @@ import MasterRanklistController from './master/ranklist';
 import MasterWhitelistController from './master/whitelist';
 import MasterBonusController from './master/bonus';
 import MasterCopierController from './master/copier';
+import MasterTagController from './master/tag';
 import OperationRedbagController from './operation/redbag';
 import AdvertiseHomeController from './advertise/home';
 import AdvertiseAdsettingController from './advertise/adsetting';
@@ -22,6 +23,7 @@ export default angular.module('app.controller', [])
     .controller('MasterWhitelistController', MasterWhitelistController)
     .controller('MasterBonusController', MasterBonusController)
     .controller('MasterCopierController', MasterCopierController)
+    .controller('MasterTagController', MasterTagController)
     .controller('OperationRedbagController', OperationRedbagController)
     .controller('AdvertiseHomeController', AdvertiseHomeController)
     .controller('AdvertiseAdsettingController', AdvertiseAdsettingController)

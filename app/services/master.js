@@ -9,7 +9,12 @@ export default class Master {
                 ranklistList: '/api/master/list',
                 getRankHistory: '/api/master/history',
                 deleteTraderRanklist: '/api/master/delete',
-                addTraderRanklist: '/api/master/add'
+                addTraderRanklist: '/api/master/add',
+                getMasterTagList: '/api/masterTag/list',
+                setMasterTagStatus: '/api/masterTag/changeStatus',
+                addMasterTag: '/api/masterTag/add',
+                recommendMaster: '/api/master/recommend',
+                cancelRecommendMaster: '/api/master/cancelRecommend'
             }
         }
     }
@@ -84,6 +89,76 @@ export default class Master {
         return this.share.publicRequest(this.settings.urls.addTraderRanklist, 'POST', {
             mt4Id: ids,
             status: status
+        });
+    }
+
+    /**
+     * 获取高手标签列表
+     *
+     * @method getMasterTagList
+     *
+     * @param {string} name  高手标签名称
+     * @param {string} status   高手标签状态 0为正常 1为停用
+     *      
+     */
+    getMasterTagList (params) {
+        return this.share.publicRequest(this.settings.urls.getMasterTagList, 'GET', params);
+    }
+
+    /**
+     * 改变高手标签状态
+     *
+     * @method setMasterTagStatus
+     *
+     * @param {string} id  高手标签id
+     * @param {string} status   高手标签状态 0为正常 1为停用
+     *      
+     */
+    setMasterTagStatus (params) {
+        return this.share.publicRequest(this.settings.urls.setMasterTagStatus, 'GET', params);
+    }
+
+    /**
+     * 添加高手标签
+     *
+     * @method addMasterTag
+     *
+     * @param {string} tagName  高手标签名称
+     *      
+     */
+    addMasterTag (tagName) {
+        return this.share.publicRequest(this.settings.urls.addMasterTag, 'POST', {
+            name: tagName
+        });
+    }
+
+    /**
+     * 为前台高手推荐高手类型
+     *
+     * @method recommendMaster
+     *
+     * @param {string} masterId  高手id
+     * @param {string} masterType  前台高手类型 1收益高手 2稳健高手 3常胜高手
+     *      
+     */
+    recommendMaster (masterId, masterType) {
+        return this.share.publicRequest(this.settings.urls.recommendMaster, 'GET', {
+            masterId: masterId,
+            masterType: masterType
+        });
+    }
+
+    /**
+     * 取消推荐高手类型
+     *
+     * @method cancelRecommendMaster
+     *
+     * @param {string} masterId  高手id
+     *      
+     */
+    cancelRecommendMaster (masterId) {
+        return this.share.publicRequest(this.settings.urls.cancelRecommendMaster, 'GET', {
+            masterId: masterId
         });
     }
 }

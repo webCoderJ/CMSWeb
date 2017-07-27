@@ -76,6 +76,9 @@
                         <th ng-if="table.thirtyWinRate">
                             近30天胜率
                         </th>
+                        <th ng-if="table.thirtyMaxRetract">
+                            近30天回撤率
+                        </th>
                         <th ng-if="table.lastProfitRate">
                             上一交易日收益率
                         </th>
@@ -160,6 +163,9 @@
                         </td>
                         <td ng-if="table.thirtyWinRate">
                             {{ rank.thirtyWinRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyMaxRetract">
+                            {{ rank.thirtyMaxRetract || '0' }}%
                         </td>
                         <td ng-if="table.lastProfitRate">
                             {{ rank.lastProfitRate || '0' }}%

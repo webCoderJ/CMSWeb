@@ -26,6 +26,10 @@ export default function MasterRanklistController($scope, master, $$localStorage,
             value: 'thirtyWinRate',
         },
         {
+            key: '近30天回撤率',
+            value: 'thirtyMaxRetract',
+        },
+        {
             key: '上一交易日收益率',
             value: 'lastProfitRate',
         },

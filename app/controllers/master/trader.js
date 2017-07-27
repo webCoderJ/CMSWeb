@@ -31,6 +31,10 @@ export default function MasterTraderController($scope, $timeout, master, $$local
             value: 'thirtyWinRate',
         },
         {
+            key: '近30天回撤率',
+            value: 'thirtyMaxRetract',
+        },
+        {
             key: '上一交易日收益率',
             value: 'lastProfitRate',
         },

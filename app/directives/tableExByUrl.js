@@ -45,8 +45,8 @@ export default ($window, $timeout, newModal) => {
                                 exportSearchStr = '?'+exportSearchArr.join('&');
                             }
                             console.log(exportSearchArr, exportSearchStr);
-                            // $window.open($window.location.origin + passedScope.exUrl);
-                            $window.open('https://cmsdev.tigerwit.com' + passedScope.exUrl + exportSearchStr);
+                            $window.open($window.location.origin + passedScope.exUrl + exportSearchStr);
+                            // $window.open('https://cmsdev.tigerwit.com' + passedScope.exUrl + exportSearchStr);
                             $scope.close();
                         }
                     }]

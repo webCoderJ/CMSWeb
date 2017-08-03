@@ -1,34 +1,45 @@
 // login 
 .login_form {
-    max-width: 330px;
-    margin: 100px auto;
+    max-width: 600px;
+    margin: 0px auto;
     background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 50px 146px;
+    border-radius: 8px;
 }
 
 .login_title {
-    font-size: 20px;
-    text-align: center;
     margin: 0;
-    background-color: #000000;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    height: 60px;
-    line-height: 60px;
+    padding: 0px 80px;
 
     img {
-        height: 50px;
+        width: 100%;
         vertical-align: middle;
+    }
+}
+.login_sub_title {
+    color: #4a4a4a;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: 500;
+    position: relative;
+
+    &:after {
+        content: '';
+        display: block;
+        width: 30px;
+        height: 2px;
+        background-color: #ffd202;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -15px;
     }
 }
 
 .login_info {
     padding: 20px;
-    padding-top: 60px;
-    background-color: #f9f9f9;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    padding-top: 40px;
 }
 
 .login_back_err {
@@ -67,18 +78,23 @@
 .login_btn {
     display: block;
     width: 100%;
-    background: #111212;
-    color: #fff;
+    color: #000;
     padding: 10px 16px;
-    border-radius: 6px;
+    border-radius: 2px;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
 
+    
+    background: linear-gradient(left, #f9e266 , #ffbd43); /* 标准的语法 */
+    background: -o-linear-gradient(left, #f9e266, #ffbd43); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(left, #f9e266, #ffbd43); /* Firefox 3.6 - 15 */
+    background: -webkit-linear-gradient(left, #f9e266 , #ffbd43); /* Safari 5.1 - 6.0 */
+
     &:hover,
     &:active {
-        background: lighten(#111212, 20%);
+        opacity: .8;
     }
 
     &.disabled {
@@ -90,7 +106,12 @@
 }
 
 .login_server_phone {
-    padding-left: 70px;
+    width: 600px;
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    margin-left: -300px;
+    text-align: center;
 
     .phone_icon {
         float: left;
@@ -101,11 +122,9 @@
         }
     }
     .phone_num {
-        float: left;
         
-        > span {
-            font-size: 18px;
-        }
+        color: #4a4a4a;
+
     }
 }
 
@@ -116,6 +135,11 @@
         width: 100%;
         margin-right: 0;
         margin-bottom: 20px;
+
+        input {
+            background-color: transparent;
+            border-radius: 2px !important;
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 import jQuery from 'jquery';
 import '../../libs/jquery.qrcode.js';
 import '../../libs/canvas2image.js';
-import tigerwitLogo from '../../images/crm_logo.png';
+import tigerwitLogo from '../../images/logo@2x.png';
 export default function GlobalController($scope, share, account, $location) {
     $scope.imageUrl = {
         tigerwitLogo: tigerwitLogo
@@ -10,6 +10,7 @@ export default function GlobalController($scope, share, account, $location) {
         show: false
     };
 
+    $scope.pageLogin = $location;
     $scope.hasPower = hasPower;
     $scope.showHeaderDropDown = showHeaderDropDown;
     $scope.logOut = logOut;
@@ -28,6 +29,22 @@ export default function GlobalController($scope, share, account, $location) {
             $scope.headerDropDown.show = false;
             $dropDownList.removeClass("active");
         });
+
+        // 设置登陆页背景色
+        $scope.$watch('pageLogin.url()', function (newVal, oldVal) {
+            // console.log(newVal, oldVal);
+            if (newVal != oldVal) {
+                if (newVal.indexOf('/login/index') != -1) {
+                    $scope.isPageLogin = true;
+                } else {
+                    $scope.isPageLogin = false;
+                }
+                
+            }
+        });
+        if ($location.url().indexOf('/login/index') != -1) {
+            $scope.isPageLogin = true;
+        }
     }
 
     function hasPower(id) {

@@ -18,6 +18,18 @@ export default function MasterRanklistController($scope, master, $$localStorage,
             value: 'lastTotalProfitRate',
         },
         {
+            key: '近30天收益率',
+            value: 'thirtyProfitRate',
+        },
+        {
+            key: '近30天胜率',
+            value: 'thirtyWinRate',
+        },
+        {
+            key: '近30天回撤率',
+            value: 'thirtyMaxRetract',
+        },
+        {
             key: '上一交易日收益率',
             value: 'lastProfitRate',
         },
@@ -84,6 +96,10 @@ export default function MasterRanklistController($scope, master, $$localStorage,
         {
             key: '榜单',
             value: 'status',
+        },
+        {
+            key: '高手类型',
+            value: 'masterType',
         },
         {
             key: '操作',
@@ -164,6 +180,10 @@ export default function MasterRanklistController($scope, master, $$localStorage,
         sum_rate: {
             key: undefined,
             value: undefined
+        },
+        master_type: {
+            key: '',
+            value: 0
         }
     };
     $scope.page = 1;
@@ -176,9 +196,18 @@ export default function MasterRanklistController($scope, master, $$localStorage,
     $scope.openRankeHistory = openRankeHistory;
     $scope.openDeleteMasterMdl = openDeleteMasterMdl;
     $scope.getExportSearch = getExportSearch;
+    $scope.changeMasterType = changeMasterType;
+    $scope.openRecommendMasterMdl = openRecommendMasterMdl;
+    $scope.openCancelRecommendMasterMdl = openCancelRecommendMasterMdl;
 
     getRankList();
     tableRedraw.setTableStyleBase();
+
+    function changeMasterType (masterType) {
+        if ($scope.info.master_type.value == masterType) return;
+        $scope.info.master_type.value = masterType;
+        getRankList();
+    }
 
     function getRankList(page) {
         page = page ? page : 1;
@@ -195,6 +224,7 @@ export default function MasterRanklistController($scope, master, $$localStorage,
             status: $scope.info.status.value,
             balance: $scope.info.balance.value,
             sumRate: $scope.info.sum_rate.value,
+            masterType: $scope.info.master_type.value,
             offset: offset,
             limit: pagesize
         }).then(function (data) {
@@ -235,6 +265,90 @@ export default function MasterRanklistController($scope, master, $$localStorage,
                 }
             },
             controller: 'DetailModalController'    
+        });
+    }
+
+    function openRecommendMasterMdl (rank) {
+        newModal.open({
+            templateUrl: require(
+                'file?name=views/master/[name].[hash].[ext]!../../views/master/ranklist_recommend_modal.html'
+            ),
+            resolve: {
+                passedScope: function () {
+                    return {
+                        page: $scope.page
+                    };
+                }
+            },
+            controller: ['$scope', 'passedScope', function ($scope, passedScope) {
+
+                $scope.loading = false;
+                $scope.backErr = {
+                    show: false,
+                    msg: ''
+                };
+                $scope.username = rank.username;
+                $scope.recommendMaster = recommendMaster;
+
+                function recommendMaster (masterType) {
+                    $scope.loading = true;
+                    master.recommendMaster(rank.master_id, masterType).then(function (data) {
+                        $scope.loading = false;
+                        // console.log(data);
+                        if (data.is_succ) {
+                            $scope.close();
+                            getRankList(passedScope.page);
+                        } else {
+                            $scope.backErr = {
+                                show: true,
+                                msg: data.message
+                            };
+                        }
+                    });
+                }           
+            }]
+        });
+    }
+
+    function openCancelRecommendMasterMdl (rank) {
+        newModal.open({
+            templateUrl: require(
+                'file?name=views/master/[name].[hash].[ext]!../../views/master/ranklist_cancel_recommend_modal.html'
+            ),
+            resolve: {
+                passedScope: function () {
+                    return {
+                        page: $scope.page
+                    };
+                }
+            },
+            controller: ['$scope', 'passedScope', function ($scope, passedScope) {
+
+                $scope.loading = false;
+                $scope.backErr = {
+                    show: false,
+                    msg: ''
+                };
+                $scope.username = rank.username;
+                $scope.cancelRecommendMaster = cancelRecommendMaster;
+
+                function cancelRecommendMaster () {
+                    $scope.loading = true;
+                    master.cancelRecommendMaster(rank.master_id).then(function (data) {
+                        $scope.loading = false;
+                        // console.log(data);
+                        if (data.is_succ) {
+                            $scope.close();
+                            getRankList(passedScope.page);
+                        } else {
+                            $scope.backErr = {
+                                show: true,
+                                msg: data.message
+                            };
+                        }
+                    });
+                }   
+            }]
         });
     }
 
@@ -327,7 +441,7 @@ export default function MasterRanklistController($scope, master, $$localStorage,
                     show: false,
                     msg: ''
                 };
-                $scope.username = rank.user_name;
+                $scope.username = rank.username;
                 $scope.deleteTraderRanklist = deleteTraderRanklist;
                 $scope.showErr = showErr;
                 $scope.hideErr = hideErr;
@@ -376,6 +490,7 @@ export default function MasterRanklistController($scope, master, $$localStorage,
             status: $scope.info.status.value,
             balance: $scope.info.balance.value,
             sumRate: $scope.info.sum_rate.value,
+            masterType: $scope.info.master_type.value
         };
     }
 }

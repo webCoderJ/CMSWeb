@@ -1,7 +1,8 @@
-export default function DetailModalController($scope, $modalInstance, passedScope, common, layer, $$localStorage) {
+export default function DetailModalController($scope, $location, $modalInstance, passedScope, common, layer, $$localStorage) {
     
     $scope.modalDetail = 'summary';
     $scope.detail = {};
+    $scope.tagManager = false;
     $scope.detailReal = {
         show: false,
         data: {}
@@ -9,9 +10,16 @@ export default function DetailModalController($scope, $modalInstance, passedScop
     $scope.changeModalDetail = changeModalDetail;
     $scope.closeModal = closeModal;
     $scope.collapseTable = collapseTable;
+    $scope.addTagforMaster = addTagforMaster;
+    $scope.deleteTagforMaster = deleteTagforMaster;
+
     var customerInfo = passedScope.customerInfo;
     customerInfo.mt4_id = customerInfo.mt4_id || customerInfo.mt4_real;
     var pagesize = $$localStorage.setPagesizeLocalStorage();
+
+    if ($location.url().indexOf('ranklist') !== -1) {
+        $scope.tagManager = true;
+    }
 
     $scope.pageCurrent = {
         needPrevAndNext: 1,
@@ -104,6 +112,10 @@ export default function DetailModalController($scope, $modalInstance, passedScop
         if (item === 'redbag' && !$scope.detail.redbag_detail) {
             getRedbagList(1);
         }
+        if (item === 'tag' && !$scope.detail.tag_detail) {
+            getMasterTagList();
+            getMasterTag();
+        }
     }
 
     function getDetails () {
@@ -112,6 +124,12 @@ export default function DetailModalController($scope, $modalInstance, passedScop
             $scope.$emit('hideLoadingWrapper');
             if (data.is_succ) {
                 angular.extend($scope.detail, data.data);
+
+                // 如果是高手，显示高手跟随链接
+                if (data.data.isMaster) {
+                    var url = $location.absUrl() == 'https://crm.tigerwit.com' ? 'https://www.tigerwit.com' : 'https://demo.tigerwit.com';
+                    $scope.followLink = url + '/trader/' + customerInfo.user_code + '/#/trader/summary';
+                }
             } else {
                 layer({
                     type: 'msg',
@@ -352,8 +370,57 @@ export default function DetailModalController($scope, $modalInstance, passedScop
         });
     }
 
+    function getMasterTag () {
+        common.getMasterTag(customerInfo.mt4_id).then(function (data) {
+            // console.log(data);
+            if (data.is_succ) {
+                angular.extend($scope.detail, {
+                    masterTags: data.data
+                });
+            }
+        });
+    }
+
+    function getMasterTagList () {
+        common.getMasterTagList().then(function (data) {
+            // console.log(data);
+            if (data.is_succ) {
+                angular.extend($scope.detail, {
+                    tag_detail: data.data.data
+                });
+            }
+        });
+    }
+
+    function addTagforMaster (tagId) {
+        common.addTagforMaster(customerInfo.mt4_id, tagId).then(function (data) {
+            // console.log(data);
+            if (data.is_succ) {
+                getMasterTag();
+            } else {
+                layer({
+                    type: 'msg',
+                    message: data.message
+                });
+            }
+        });
+    }
+
+    function deleteTagforMaster (tagId) {
+        common.deleteTagforMaster(customerInfo.mt4_id, tagId).then(function (data) {
+            if (data.is_succ) {
+                getMasterTag();
+            } else {
+                layer({
+                    type: 'msg',
+                    message: data.message
+                });
+            }
+        });
+    }
+
     function closeModal() {
         $modalInstance.dismiss();
     }
 }
-DetailModalController.$inject = ['$scope', '$modalInstance', 'passedScope', 'common', 'layer', '$$localStorage'];
+DetailModalController.$inject = ['$scope', '$location', '$modalInstance', 'passedScope', 'common', 'layer', '$$localStorage'];

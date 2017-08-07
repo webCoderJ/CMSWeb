@@ -1,0 +1,86 @@
+<div loading-wrapper data-type="loading"></div>
+<div class="cms_container">
+    <div class="btn-container">
+        <div class="btn-wrapper">
+            <div list-select options-list="status" bind-name="status" data-placeholder="状态" bind-model-value="info.status.value" bind-model-key="info.status.key" bind-option-key="key" bind-option-value="value"></div>
+            
+            <div class="form-control-wrapper width200">
+                
+                <input class="form-control"
+                       name="tagName"
+                       type="text"
+                       placeholder="标签名称"
+                       text-enter
+                       get-list="getMasterTagList()"
+                       ng-model="info.tagName.value">
+            </div>
+
+        </div>
+        <div class="btn-wrapper clearfix">
+            <button ng-if="success" class="btn btn-primary" ng-click="getMasterTagList()">
+                <i class="icon iconfont">&#xe605;</i>
+                查询
+            </button>
+            <button ng-if="!success" class="btn btn-primary disabled" disabled>
+                <i class="icon iconfont">&#xe603;</i>
+                查询
+            </button>
+            <button class="btn btn-primary" ng-click="openAddTagMdl()">
+                <i class="icon iconfont">&#xe606;</i>
+                新增
+            </button>
+        </div>
+    </div>
+    <div class="table-content-wrapper">
+        <div class="table-header-wrapper" ng-class="{'table-fix': tableFix}">
+            <table class="table table-center table-header" ng-style="{marginLeft: tableFix ? tableScrollLeft : '0px'}">
+                <thead>
+                    <tr>
+                        <th>
+                            标签名称
+                        </th>
+                        <th>
+                            应用客户数
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-body-wrapper" ng-style="{'paddingTop': tableHeaderHeight}">
+            <table class="table table-center table-hover table-body">
+                <tbody>
+                    <tr tr-animate ng-repeat="tag in tagList">
+                        <td>{{ tag.name }}</td>
+                        <td>{{ tag.total }}</td>
+                        <td>
+                            <span ng-show="tag.status == 0">
+                                正常
+                            </span>
+                            <span ng-show="tag.status == 1">
+                                停用
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" ng-show="tag.status == 0" ng-click="setMasterTagStatus(tag, 0)">
+                                停用
+                            </button>
+                            <button class="btn btn-primary" ng-show="tag.status == 1" ng-click="setMasterTagStatus(tag, 1)">
+                                恢复
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-if="tagList.length <= 0">
+                        <td>无数据</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div new-pagination pageconf="pageTag"></div>
+</div>

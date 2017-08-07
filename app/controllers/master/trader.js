@@ -23,6 +23,18 @@ export default function MasterTraderController($scope, $timeout, master, $$local
             value: 'lastTotalProfitRate',
         },
         {
+            key: '近30天收益率',
+            value: 'thirtyProfitRate',
+        },
+        {
+            key: '近30天胜率',
+            value: 'thirtyWinRate',
+        },
+        {
+            key: '近30天回撤率',
+            value: 'thirtyMaxRetract',
+        },
+        {
             key: '上一交易日收益率',
             value: 'lastProfitRate',
         },
@@ -289,7 +301,7 @@ export default function MasterTraderController($scope, $timeout, master, $$local
 
                 var id = trader.mt4_real;
                 
-                $scope.username = trader.user_name;
+                $scope.username = trader.username;
                 $scope.status = status == 1 ? '前台' : '隐藏';
                 $scope.loading = false;
                 $scope.backErr = {

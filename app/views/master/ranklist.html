@@ -45,6 +45,14 @@
             <div table-select table="table" table-conf="ranklistConf" table-front-key="storageFrontKey"></div>
         </div>
     </div>
+    <div class="ranklist_master_type clearfix">
+        <ul class="">
+            <li ng-class="{active: info.master_type.value == 0}" ng-click="changeMasterType(0)">全部高手</li>
+            <li ng-class="{active: info.master_type.value == 1}" ng-click="changeMasterType(1)">收益高手</li>
+            <li ng-class="{active: info.master_type.value == 3}" ng-click="changeMasterType(3)">常胜高手</li>
+            <li ng-class="{active: info.master_type.value == 2}" ng-click="changeMasterType(2)">稳健高手</li>
+        </ul>
+    </div>
     <div class="table-content-wrapper">
         <div class="table-header-wrapper" ng-class="{'table-fix': tableFix}">
             <table class="table table-center table-header" ng-style="{marginLeft: tableFix ? tableScrollLeft : '0px'}">
@@ -61,6 +69,15 @@
                         </th>
                         <th ng-if="table.lastTotalProfitRate">
                             总收益率
+                        </th>
+                        <th ng-if="table.thirtyProfitRate">
+                            近30天收益率
+                        </th>
+                        <th ng-if="table.thirtyWinRate">
+                            近30天胜率
+                        </th>
+                        <th ng-if="table.thirtyMaxRetract">
+                            近30天回撤率
                         </th>
                         <th ng-if="table.lastProfitRate">
                             上一交易日收益率
@@ -113,6 +130,9 @@
                         <th ng-if="table.status">
                             榜单
                         </th>
+                        <th ng-if="table.masterType">
+                            高手类型
+                        </th>
                         <th ng-if="table.handle" style="min-width:260px!important;">
                             操作
                         </th>
@@ -137,6 +157,15 @@
                         </td>
                         <td ng-if="table.lastTotalProfitRate">
                             {{ rank.lastTotalProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyProfitRate">
+                            {{ rank.thirtyProfitRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyWinRate">
+                            {{ rank.thirtyWinRate || '0' }}%
+                        </td>
+                        <td ng-if="table.thirtyMaxRetract">
+                            {{ rank.thirtyMaxRetract || '0' }}%
                         </td>
                         <td ng-if="table.lastProfitRate">
                             {{ rank.lastProfitRate || '0' }}%
@@ -190,18 +219,30 @@
                             <span ng-if="rank.status == 1">前台高手榜</span>
                             <span ng-if="rank.status == 2">隐藏高手榜</span>
                         </td>
+                        <td ng-if="table.masterType">
+                            <span ng-if="rank.master_type == 0">-</span>
+                            <span ng-if="rank.master_type == 1">收益高手</span>
+                            <span ng-if="rank.master_type == 2">稳健高手</span>
+                            <span ng-if="rank.master_type == 3">常胜高手</span>
+                        </td>
                         <td ng-if="table.handle" style="min-width:260px!important;">
-                            <span>
-                                <button class="btn btn-primary" ng-if="hasPower(53)" ng-click="openDeleteMasterMdl(rank)">
+                            <span ng-if="hasPower(53)">
+                                <button class="btn btn-primary" ng-if="rank.master_type == 0" ng-click="openDeleteMasterMdl(rank)">
                                     下榜
                                 </button>
-                                <button class="btn btn-primary" ng-if="hasPower(53)" ng-click="openRankeHistory(rank)">
+                                <button class="btn btn-primary" ng-click="openRankeHistory(rank)">
                                     榜单历史
+                                </button>
+                                <button class="btn btn-primary" ng-if="rank.master_type != 0" ng-click="openCancelRecommendMasterMdl(rank)">
+                                    取消推荐
+                                </button>
+                                <button class="btn btn-primary" ng-if="rank.master_type == 0 && rank.status == 1" ng-click="openRecommendMasterMdl(rank)">
+                                    推荐至
                                 </button>
                             </span>
                         </td>
                     </tr>
-                    <tr ng-if="traders.length <= 0">
+                    <tr ng-if="ranklist.length <= 0">
                         <td>无数据</td>
                     </tr>
                 </tbody>

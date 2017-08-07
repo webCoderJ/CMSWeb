@@ -30,6 +30,9 @@
             <li ng-class="{'active': modalDetail === 'redbag'}" ng-click="changeModalDetail('redbag')">
                 <a href="">红包</a>
             </li>
+            <li ng-class="{'active': modalDetail === 'tag'}" ng-click="changeModalDetail('tag')" ng-show="tagManager">
+                <a href="">标签管理</a>
+            </li>
         </ul>
     </div>
     
@@ -545,6 +548,10 @@
                 <div new-pagination pageconf="pageCopyHistory"></div>
             </div>
             <div ng-show="modalDetail === 'follow'">
+                <div class="follow_link" ng-show="followLink">
+                    跟随链接：
+                    <a ng-href="{{ followLink }}" target="_blank">{{ followLink }}</a>
+                </div>
                 <div class="system_modal__tip">当前跟随者</div>
                 <div class="table-modal-wrapper">
                     <table class="table table-center table-hover">
@@ -637,6 +644,21 @@
                     </table>
                 </div>
                 <div new-pagination pageconf="pageRedbag"></div>
+            </div>
+            <div ng-show="modalDetail === 'tag' && tagManager">
+                <div class="system_modal_tag__tit">高手标签</div>
+                <ul class="system_modal_tag__list">
+                    <li class="tag master" ng-repeat="tag in detail.masterTags">
+                        {{ tag.name }}
+                        <i class="icon iconfont" ng-click="deleteTagforMaster(tag.id)">&#xe604;</i>
+                    </li>
+                </ul>
+                <div class="system_modal_tag__tit">所有高手标签</div>
+                <ul class="system_modal_tag__list">
+                    <li class="tag all" ng-repeat="tag in detail.tag_detail" ng-click="addTagforMaster(tag.id)">
+                        {{ tag.name }}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

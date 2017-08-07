@@ -15,7 +15,11 @@ export default class Common {
                 getFollowCurrent: '/api/copy/follow',
                 getFollowHistory: '/api/copy/followHistory',
                 getCopyAmountChangeHis: '/api/copy/changeCopyAmount',
-                getRedbagList: '/api/customer/bonus'
+                getRedbagList: '/api/customer/bonus',
+                getMasterTagList: '/api/masterTag/list',
+                getMasterTag: '/api/masterTag/masterTag',
+                addTagforMaster: '/api/masterTag/tagging',
+                deleteTagforMaster: '/api/masterTag/del'
             }
         }
     }
@@ -180,6 +184,69 @@ export default class Common {
             mt4Id: mt4Id,
             offset: offset,
             limit: limit
+        });
+    }
+
+    /**
+     * 获取所有高手标签列表
+     *
+     * @method getMasterTagList
+     *
+     * @param {string} name  高手标签名称
+     * @param {string} status   高手标签状态 0为正常 1为停用
+     *      
+     */
+    getMasterTagList () {
+        return this.share.publicRequest(this.settings.urls.getMasterTagList, 'GET', {
+            status: 0,
+            offset: 0,
+            limit: 1000
+        });
+    }
+
+    /**
+     * 获取高手标签列表
+     *
+     * @method getMasterTag
+     *
+     * @param {string} mt4Id  mt4 id
+     *      
+     */
+    getMasterTag(mt4Id) {
+        return this.share.publicRequest(this.settings.urls.getMasterTag, 'GET', {
+            mt4Id: mt4Id
+        });
+    }
+
+    /**
+     * 为高手打标签
+     *
+     * @method addTagforMaster
+     *
+     * @param {string} mt4Id  mt4 id
+     * @param {string} tagId  高手标签id
+     *      
+     */
+    addTagforMaster(mt4Id, tagId) {
+        return this.share.publicRequest(this.settings.urls.addTagforMaster, 'GET', {
+            mt4Id: mt4Id,
+            tagId: tagId
+        });
+    }
+
+    /**
+     * 删除高手标签
+     *
+     * @method deleteTagforMaster
+     *
+     * @param {string} mt4Id  mt4 id
+     * @param {string} tagId  高手标签id
+     *      
+     */
+    deleteTagforMaster(mt4Id, tagId) {
+        return this.share.publicRequest(this.settings.urls.deleteTagforMaster, 'GET', {
+            mt4Id: mt4Id,
+            tagId: tagId
         });
     }
 }

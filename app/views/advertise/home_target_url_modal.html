@@ -1,0 +1,66 @@
+<div class="system_modal">
+    <span class="close" ng-click="close()">
+        <i class="icon iconfont">&#xe604;</i>
+    </span>
+
+    <h5 class="system_modal__title">
+        链接地址
+    </h5>
+
+    <div class="system_modal__content ranklist_modal__content">
+        <div class="mg-bt-15" style="text-align: left;">
+            链接地址类型：
+            <label>
+                <input type="radio"
+                    value="2"
+                    ng-model="type">
+                内部模块
+            </label>
+            <label style="padding-left: 5px;">
+                <input type="radio"
+                    value="1"
+                    ng-model="type">
+                H5链接
+            </label>
+        </div>
+        <div ng-show="type == '1'" style="text-align: left;">
+            H5链接地址：
+            <div class="form-control-wrapper">
+                <input type="text" class="form-control" ng-model="targetUrl">
+            </div>
+        </div>
+        <div ng-show="type == '2'" style="text-align: left;">
+            内部模块地址：
+            <div class="form-control-wrapper" style="width: 130px;">
+                <!-- <input type="text" class="form-control" ng-model="targetType"> -->
+                <div class="target_mod">
+                    <span ng-show="targetInfo.key" ng-click="changeShowTargetModLst()">
+                        {{ targetInfo.children.key ? targetInfo.children.key : targetInfo.key }}
+                    </span>
+                    <span class="init" ng-show="!targetInfo.key" ng-click="changeShowTargetModLst()">
+                        请选择
+                    </span>
+
+                    <ul class="target_mod_lst" ng-if="showTargetModLst && targetModLst.length > 0">
+                        <li ng-repeat="lst in targetModLst" ng-mouseover="hoverTargetLst(lst)" ng-class="{have_sub_lst: lst.children && lst.children.length > 0}">
+                            <span ng-click="selectTargetInfo(lst)">{{lst.key}}</span>
+                        </li>
+                    </ul>
+                    <ul class="target_mod_sub_lst" ng-if="targetModSubLst.length > 0">
+                        <li ng-repeat="lst in targetModSubLst">
+                            <span ng-click="selectTargetInfo(lst, 'sub')">{{lst.username || 'null'}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="btn-wrapper">
+            <button class="btn btn-primary" ng-click="addTargetInfo()">
+                确认
+            </button>
+            <button class="btn btn-gray" ng-click="close()">
+                取消
+            </button>
+        </div>
+    </div>
+</div>

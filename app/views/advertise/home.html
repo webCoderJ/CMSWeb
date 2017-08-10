@@ -2,11 +2,15 @@
 <div class="cms_container">
     <div class="advertise">
         <div class="advertise_wrapper">
-            <div class="advertise_title">焦点图</div>
-            <div class="tab_wrapper">
+            <div class="advertise_title">
+                PC焦点图
+                <span ng-show="!showAdvertiseMod.focusList" ng-click="changeAdvertiseModStatus('focusList', true)">展开</span>
+                <span ng-show="showAdvertiseMod.focusList" ng-click="changeAdvertiseModStatus('focusList', false)">收起</span>
+            </div>
+            <div class="tab_wrapper" ng-show="showAdvertiseMod.focusList">
                 <div class="clearfix">
                     <ul class="tab_nav_lst">
-                        <li ng-click="chooseType($index)" ng-repeat="tab in focusList" ng-class="{active: focusType === $index}" class="tab_nav_btn">图{{ $index+1 }}</li>
+                        <li ng-click="chooseType('focusType', $index)" ng-repeat="tab in focusList" ng-class="{active: focusType === $index}" class="tab_nav_btn">图{{ $index+1 }}</li>
                     </ul>
                     <div class="tab_tip">
                         图片规格: 2560*650
@@ -111,10 +115,10 @@
                                     <td>
                                         <span ng-if="!focus.isEdit">
                                             <button class="btn btn-primary" ng-click="editAd(focus)">修改</button>
-                                            <button class="btn btn-primary" ng-click="deleteAdvertise(focus)">删除</button>
+                                            <button class="btn btn-primary" ng-click="deleteAdvertise(focus, 'focus')">删除</button>
                                         </span>
                                         <span ng-if="focus.isEdit">
-                                            <button class="btn btn-default" ng-click="updateAdvertise(focus)">确定</button>
+                                            <button class="btn btn-default" ng-click="updateAdvertise(focus, 'focus')">确定</button>
                                             <button class="btn btn-gray" ng-click="clearAdEditStatus()">取消</button>
                                         </span>
                                     </td>
@@ -163,149 +167,326 @@
         </div>
         <div class="advertise_wrapper">
             <div class="advertise_title">
-                弹屏广告
-                <span class="">
-                    图片规格: 960*560
-                </span>
+                PC弹屏广告
+                <span ng-show="!showAdvertiseMod.alertList" ng-click="changeAdvertiseModStatus('alertList', true)">展开</span>
+                <span ng-show="showAdvertiseMod.alertList" ng-click="changeAdvertiseModStatus('alertList', false)">收起</span>
             </div>
-            <div class="table-tab-wrapper">
-                <table class="table table-center">
-                    <colgroup>
-                        <col width="7%">
-                        <col width="13%">
-                        <!-- <col width="14%"> -->
-                        <col width="16%">
-                        <col width="16%">
-                        <col width="16%">
-                        <col width="16%">
-                        <col width="16%">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>排期顺序</th>
-                            <th>活动名称</th>
-                            <!-- <th>背景图片</th> -->
-                            <th>内容图片</th>
-                            <th>链接地址</th>
-                            <th>上线日期</th>
-                            <th>下线日期</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="alert in alertList.data">
-                            <td>{{ $index+1 }}</td>
-                            <td>
-                                <span ng-if="!alert.isEdit">{{ alert.name || '-' }}</span>
-                                <span ng-if="alert.isEdit">
-                                    <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="editInfo.name">
-                                </span>
-                            </td>
-                            <!-- <td>{{ alert.back_img_url || '-' }}</td> -->
-                            <td>
-                                <span ng-show="!alert.isEdit">
-                                    <img class="advertise_thumbnail_img" ng-src="{{alert.image_url}}">
-                                    <!-- {{ alert.image_url || '-' }} -->
-                                </span>
-                                <span ng-show="alert.isEdit">
-                                    <label class="advertise_file_upload" ng-show="!editInfo.uploadSucc">
-                                        <input type="file" name="" accept="image/jpeg,image/png">
-                                        <span>
-                                            上传
-                                            <span class="img_tip">
-                                                <i class="icon iconfont">&#xe615;</i>
-                                                <span class="alert-arrow alert-left">
-                                                   若不重新上传则沿用上一张图片 
+            <div class="tab_wrapper" ng-show="showAdvertiseMod.alertList">
+                <div class="clearfix">
+                    <ul class="tab_nav_lst">
+                        <li ng-click="chooseType('alertType', $index)" ng-repeat="tab in alertList" ng-class="{active: alertType === $index}" class="tab_nav_btn">图{{ $index+1 }}</li>
+                    </ul>
+                    <div class="tab_tip">
+                        图片规格: 960*560
+                    </div>
+                </div>
+                <div class="tab_content">
+                    <div class="table-tab-wrapper">
+                        <table class="table table-center">
+                            <colgroup>
+                                <col width="7%">
+                                <col width="13%">
+                                <!-- <col width="14%"> -->
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>排期顺序</th>
+                                    <th>活动名称</th>
+                                    <!-- <th>背景图片</th> -->
+                                    <th>内容图片</th>
+                                    <th>链接地址</th>
+                                    <th>上线日期</th>
+                                    <th>下线日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="alert in alertList[alertType].data">
+                                    <td>{{ $index+1 }}</td>
+                                    <td>
+                                        <span ng-if="!alert.isEdit">{{ alert.name || '-' }}</span>
+                                        <span ng-if="alert.isEdit">
+                                            <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="editInfo.name">
+                                        </span>
+                                    </td>
+                                    <!-- <td>{{ alert.back_img_url || '-' }}</td> -->
+                                    <td>
+                                        <span ng-show="!alert.isEdit">
+                                            <img class="advertise_thumbnail_img" ng-src="{{alert.image_url}}">
+                                            <!-- {{ alert.image_url || '-' }} -->
+                                        </span>
+                                        <span ng-show="alert.isEdit">
+                                            <label class="advertise_file_upload" ng-show="!editInfo.uploadSucc">
+                                                <input type="file" name="" accept="image/jpeg,image/png">
+                                                <span>
+                                                    上传
+                                                    <span class="img_tip">
+                                                        <i class="icon iconfont">&#xe615;</i>
+                                                        <span class="alert-arrow alert-left">
+                                                           若不重新上传则沿用上一张图片 
+                                                        </span>
+                                                    </span>
                                                 </span>
+                                            </label>
+                                            <span ng-show="editInfo.uploadSucc">
+                                                上传完成
                                             </span>
                                         </span>
-                                    </label>
-                                    <span ng-show="editInfo.uploadSucc">
-                                        上传完成
-                                    </span>
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-if="!alert.isEdit">{{ alert.target_url || '-' }}</span>
-                                <span ng-if="alert.isEdit">
-                                    <input type="text" name="name" class="form-control" placeholder="http://" ng-model="editInfo.targetUrl">
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-if="!alert.isEdit">
-                                    {{ alert.start_time || '-' }}
-                                </span>
-                                <span ng-if="alert.isEdit">
-                                    <div daterangepicker data-picker-type="range-single" 
-                                        data-bind-placeholder="请选择时间" 
-                                        data-time-select="true"
-                                        data-show-err=""
-                                        data-bind-model="editInfo.timeStart">
-                                    </div>
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-if="!alert.isEdit">
-                                    {{ alert.end_time || '-' }}
-                                </span>
-                                <span ng-if="alert.isEdit">
-                                    <div daterangepicker data-picker-type="range-single" 
-                                        data-bind-placeholder="请选择时间" 
-                                        data-time-select="true"
-                                        data-show-err=""
-                                        data-bind-model="editInfo.timeEnd">
-                                    </div>
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-if="!alert.isEdit">
-                                    <button class="btn btn-primary" ng-click="editAd(alert)">修改</button>
-                                    <button class="btn btn-primary" ng-click="deleteAdvertise(alert)">删除</button>
-                                </span>
-                                <span ng-if="alert.isEdit">
-                                    <button class="btn btn-default" ng-click="updateAdvertise(alert)">确定</button>
-                                    <button class="btn btn-gray" ng-click="clearAdEditStatus()">取消</button>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>新增</td>
-                            <td>
-                                <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="info.alert.name">
-                            </td>
-                            <!-- <td><a href="">上传</a></td> -->
-                            <td>
-                                <label class="advertise_file_upload" ng-show="!info.alert.imgUrl">
-                                    <input type="file" name="alert" accept="image/jpeg,image/png">
-                                    <span>上传</span>
-                                </label>
-                                <span ng-show="info.alert.imgUrl">
-                                    上传完成
-                                </span>
-                            </td>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!alert.isEdit">{{ alert.target_url || '-' }}</span>
+                                        <span ng-if="alert.isEdit">
+                                            <input type="text" name="name" class="form-control" placeholder="http://" ng-model="editInfo.targetUrl">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!alert.isEdit">
+                                            {{ alert.start_time || '-' }}
+                                        </span>
+                                        <span ng-if="alert.isEdit">
+                                            <div daterangepicker data-picker-type="range-single" 
+                                                data-bind-placeholder="请选择时间" 
+                                                data-time-select="true"
+                                                data-show-err=""
+                                                data-bind-model="editInfo.timeStart">
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!alert.isEdit">
+                                            {{ alert.end_time || '-' }}
+                                        </span>
+                                        <span ng-if="alert.isEdit">
+                                            <div daterangepicker data-picker-type="range-single" 
+                                                data-bind-placeholder="请选择时间" 
+                                                data-time-select="true"
+                                                data-show-err=""
+                                                data-bind-model="editInfo.timeEnd">
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!alert.isEdit">
+                                            <button class="btn btn-primary" ng-click="editAd(alert)">修改</button>
+                                            <button class="btn btn-primary" ng-click="deleteAdvertise(alert, 'alert')">删除</button>
+                                        </span>
+                                        <span ng-if="alert.isEdit">
+                                            <button class="btn btn-default" ng-click="updateAdvertise(alert, 'alert')">确定</button>
+                                            <button class="btn btn-gray" ng-click="clearAdEditStatus()">取消</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>新增</td>
+                                    <td>
+                                        <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="info.alert.name">
+                                    </td>
+                                    <!-- <td><a href="">上传</a></td> -->
+                                    <td>
+                                        <label class="advertise_file_upload" ng-show="!info.alert.imgUrl">
+                                            <input type="file" name="alert" accept="image/jpeg,image/png">
+                                            <span>上传</span>
+                                        </label>
+                                        <span ng-show="info.alert.imgUrl">
+                                            上传完成
+                                        </span>
+                                    </td>
 
-                            <td><input type="text" name="name" class="form-control" placeholder="http://" ng-model="info.alert.targetUrl"></td>
-                            <td>
-                                <div daterangepicker data-picker-type="range-single" 
-                                    data-bind-placeholder="请选择时间" 
-                                    data-time-select="true"
-                                    data-show-err=""
-                                    data-bind-model="info.alert.timeStart">
-                                </div>
-                            </td>
-                            <td>
-                                <div daterangepicker data-picker-type="range-single" 
-                                    data-bind-placeholder="请选择时间" 
-                                    data-show-err=""
-                                    data-bind-model="info.alert.timeEnd">
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-primary" ng-click="addAdvertise('alert')">新增</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <td><input type="text" name="name" class="form-control" placeholder="http://" ng-model="info.alert.targetUrl"></td>
+                                    <td>
+                                        <div daterangepicker data-picker-type="range-single" 
+                                            data-bind-placeholder="请选择时间" 
+                                            data-time-select="true"
+                                            data-show-err=""
+                                            data-bind-model="info.alert.timeStart">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div daterangepicker data-picker-type="range-single" 
+                                            data-bind-placeholder="请选择时间"
+                                            data-time-select="true" 
+                                            data-show-err=""
+                                            data-bind-model="info.alert.timeEnd">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" ng-click="addAdvertise('alert')">新增</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="advertise_wrapper">
+            <div class="advertise_title">
+                APP焦点图
+                <span ng-show="!showAdvertiseMod.appFocusList" ng-click="changeAdvertiseModStatus('appFocusList', true)">展开</span>
+                <span ng-show="showAdvertiseMod.appFocusList" ng-click="changeAdvertiseModStatus('appFocusList', false)">收起</span>
+            </div>
+            <div class="tab_wrapper" ng-show="showAdvertiseMod.appFocusList">
+                <div class="clearfix">
+                    <ul class="tab_nav_lst">
+                        <li ng-click="chooseType('appFocusType', $index)" ng-repeat="tab in appFocusList" ng-class="{active: appFocusType === $index}" class="tab_nav_btn">图{{ $index+1 }}</li>
+                    </ul>
+                    <div class="tab_tip">
+                        图片规格: 750*300
+                        
+                    </div>
+                </div>
+                <div class="tab_content">
+                    <div class="table-tab-wrapper">
+                        <table class="table table-center">
+                            <colgroup>
+                                <col width="7%">
+                                <col width="13%">
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                                <col width="16%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>排期顺序</th>
+                                    <th>活动名称</th>
+                                    <th>内容图片</th>
+                                    <th>链接地址</th>
+                                    <th>上线日期</th>
+                                    <th>下线日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="focus in appFocusList[appFocusType].data">
+                                    <td>{{ $index+1 }}</td>
+                                    <td>
+                                        <span ng-if="!focus.isEdit">{{ focus.name || '-' }}</span>
+                                        <span ng-if="focus.isEdit">
+                                            <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="editInfo.name">
+                                        </span>
+                                    </td>
+                                    <!-- <td>{{ focus.back_img_url || '-' }}</td> -->
+                                    <td>
+                                        <span ng-if="!focus.isEdit">
+                                            <img class="advertise_thumbnail_img" ng-src="{{focus.image_url}}">
+                                            <!-- {{ focus.image_url || '-' }} -->
+                                        </span>
+                                        <span ng-if="focus.isEdit">
+                                            <label class="advertise_file_upload" ng-show="!editInfo.uploadSucc">
+                                                <input type="file" name="" accept="image/jpeg,image/png">
+                                                <span>
+                                                    上传
+                                                    <span class="img_tip">
+                                                        <i class="icon iconfont">&#xe615;</i>
+                                                        <span class="alert-arrow alert-left">
+                                                           若不重新上传则沿用上一张图片 
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </label>
+                                            <span ng-show="editInfo.uploadSucc">
+                                                上传完成
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-show="!focus.isEdit && focus.target_url">{{ focus.target_url || '-' }}</span>
+                                        <span ng-show="!focus.isEdit && !focus.target_url" ng-init="selectTargetType(focus)">
+                                            {{focus.target_key}}
+                                        </span>
+                                        <!-- <span ng-show="focus.isEdit && focus.target_url">
+                                            <input type="text" name="name" class="form-control" placeholder="http://" ng-model="editInfo.targetUrl">
+                                        </span> -->
+                                        <span ng-show="focus.isEdit">
+                                            <button class="btn btn-default" ng-click="selectLinkType('editInfo')">选择</button>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!focus.isEdit">
+                                            {{ focus.start_time || '-' }}
+                                        </span>
+                                        <span ng-if="focus.isEdit">
+                                            <div daterangepicker data-picker-type="range-single" 
+                                                data-bind-placeholder="请选择时间" 
+                                                data-time-select="true"
+                                                data-show-err=""
+                                                data-bind-model="editInfo.timeStart">
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!focus.isEdit">
+                                            {{ focus.end_time || '-' }}
+                                        </span>
+                                        <span ng-if="focus.isEdit">
+                                            <div daterangepicker data-picker-type="range-single" 
+                                                data-bind-placeholder="请选择时间" 
+                                                data-time-select="true"
+                                                data-show-err=""
+                                                data-bind-model="editInfo.timeEnd">
+                                            </div>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!focus.isEdit">
+                                            <button class="btn btn-primary" ng-click="editAd(focus)">修改</button>
+                                            <button class="btn btn-primary" ng-click="deleteAdvertise(focus, 'appFocus')">删除</button>
+                                        </span>
+                                        <span ng-if="focus.isEdit">
+                                            <button class="btn btn-default" ng-click="updateAdvertise(focus, 'appFocus')">确定</button>
+                                            <button class="btn btn-gray" ng-click="clearAdEditStatus()">取消</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>新增</td>
+                                    <td>
+                                        <input type="text" name="name" class="form-control" placeholder="10字符内" ng-model="info.appFocus.name">
+                                    </td>
+                                    <!-- <td><a href="">上传</a></td> -->
+                                    <td>
+                                        <label class="advertise_file_upload" ng-show="!info.appFocus.imgUrl">
+                                            <input type="file" name="appFocus" accept="image/jpeg,image/png">
+                                            <span>上传</span>
+                                        </label>
+                                        <span ng-show="info.appFocus.imgUrl">
+                                            上传完成
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-default" ng-click="selectLinkType('appFocus')">选择</button>
+                                    </td>
+                                    <td>
+                                        <div daterangepicker data-picker-type="range-single" 
+                                            data-bind-placeholder="请选择时间" 
+                                            data-time-select="true"
+                                            data-show-err=""
+                                            data-bind-model="info.appFocus.timeStart">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div daterangepicker data-picker-type="range-single" 
+                                            data-bind-placeholder="请选择时间" 
+                                            data-time-select="true"
+                                            data-show-err=""
+                                            data-bind-model="info.appFocus.timeEnd">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" ng-click="addAdvertise('appFocus')">新增</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

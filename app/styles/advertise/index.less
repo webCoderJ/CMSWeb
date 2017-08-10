@@ -9,8 +9,10 @@
     span {
         float: right;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 16px;
         padding-right: 20px;
+        cursor: pointer;
+        color: #2f3d4f;
     }
 }
 .advertise_file_upload {
@@ -73,6 +75,96 @@
     }
 }
 
+
+
+
+.target_mod {
+    width: 100%;
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 2px 0px 2px 10px;
+    cursor: pointer;
+    position: relative;
+
+    span {
+        display: block;
+    }
+
+    .init {
+        color: #999;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        border: 5px solid transparent;
+        border-top-color: #ccc;
+        margin-top: -2px;
+    }
+
+    .target_mod_lst {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        overflow-y: scroll;
+        height: 80px;
+
+        li {
+            padding: 2px 0px 2px 10px;
+            cursor: pointer;
+            position: relative;
+
+            &:hover {
+                background-color: #eee;
+            }
+
+            &.have_sub_lst {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    right: 4px;
+                    border: 5px solid transparent;
+                    border-left-color: #ccc;
+                    margin-top: -2px;
+                }
+            }
+        }
+    }
+    .target_mod_sub_lst {
+        position: absolute;
+        top: 100%;
+        left: 100%;
+        width: 100%;
+        z-index: 100;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        overflow-y: scroll;
+        height: 80px;
+
+        li {
+            padding: 2px 0px 2px 10px;
+            cursor: pointer;
+            position: relative;
+
+            &:hover {
+                background-color: #eee;
+            }
+
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}
 
 
 

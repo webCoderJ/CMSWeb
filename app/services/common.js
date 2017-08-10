@@ -5,6 +5,7 @@ export default class Common {
         });
         this.settings = {
             urls: {
+                getMasterList: '/api/master/mInfoList',
                 getUserOfNum: '/api/customer/keyword',
                 getCustomerDetails: '/api/customer/details',
                 getCustomerRealtimeDetails: '/api/customer/realtimeData',
@@ -22,6 +23,55 @@ export default class Common {
                 deleteTagforMaster: '/api/masterTag/del'
             }
         }
+    }
+
+    /**
+     * getAppTargetType 获取app跳转内部链接type
+     *
+     */
+    getAppTargetType() {
+        return {
+            is_succ: true,
+            data: [
+                {
+                    key: '充值',
+                    value: 401
+                },
+                {
+                    key: '提现',
+                    value: 402
+                },
+                {
+                    key: '交易页面',
+                    value: 201
+                },
+                {
+                    key: '红包中心',
+                    value: 403
+                },
+                {
+                    key: '邀请好友',
+                    value: 405
+                },
+                {
+                    key: '高手主页',
+                    value: 101,
+                    children: []
+                }
+            ]
+        };
+    }
+    /**
+     * getMasterList 获取高手信息列表
+     *
+     * @method getMasterList
+     * @param masterStatus  高手类型 1前台高手，2隐藏高手
+     * 
+     */
+    getMasterList() {
+        return this.share.publicRequest(this.settings.urls.getMasterList, 'GET', {
+            masterStatus: 1
+        });
     }
     /**
      * getUserOfNum 登陆

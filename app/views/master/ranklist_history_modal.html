@@ -9,50 +9,58 @@
     </h5>
 
     <div class="system_modal__content">
-        <div class="table-modal-wrapper">
-            <table class="table table-center table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            上榜时间
-                        </th>
-                        <th>
-                            下榜时间
-                        </th>
-                        <th>
-                            下榜原因
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-if="rankHistory.length > 0" ng-repeat="ranker in rankHistory">
-                        <td>
-                            <span ng-if="ranker.type == 1">
-                                {{ ranker.created_at || '-' }}
-                            </span>
-                        </td>
-                        <td>
-                            <span ng-if="ranker.type == 0">
-                                {{ ranker.created_at || '-' }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ ranker.reason}}
-                        </td>
-                    </tr>
-                    <tr ng-if="success && rankHistory.length <= 0">
-                        <td colspan="3">
-                            无数据
-                        </td>
-                    </tr>
-                    <tr ng-if="!success && rankHistory.length <= 0">
-                        <td colspan="3">
-                            加载中...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="cont-wrapper">
+            <div class="table-modal-wrapper">
+                <table class="table table-center table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                上榜时间
+                            </th>
+                            <th>
+                                下榜时间
+                            </th>
+                            <th>
+                                榜单名称
+                            </th>
+                            <th>
+                                下榜原因
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="rankHistory.length > 0" ng-repeat="ranker in rankHistory">
+                            <td>
+                                <span ng-if="ranker.type == 1">
+                                    {{ ranker.created_at || '-' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="ranker.type == 0">
+                                    {{ ranker.created_at || '-' }}
+                                </span>
+                            </td>
+                            <td>
+                                {{ ranker.name || '-' }}
+                            </td>
+                            <td>
+                                {{ ranker.reason || '-' }}
+                            </td>
+                        </tr>
+                        <tr ng-if="success && rankHistory.length <= 0">
+                            <td colspan="4">
+                                无数据
+                            </td>
+                        </tr>
+                        <tr ng-if="!success && rankHistory.length <= 0">
+                            <td colspan="4">
+                                加载中...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div new-pagination pageconf="pageRankHistory"></div>
         </div>
-        <div new-pagination pageconf="pageRankHistory"></div>
     </div>
 </div>
